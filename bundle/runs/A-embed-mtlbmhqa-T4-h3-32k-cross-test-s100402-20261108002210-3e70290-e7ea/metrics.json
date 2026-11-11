@@ -1,0 +1,25 @@
+{
+  "items": 83,
+  "origins": 5312,
+  "dim": 1024,
+  "model": "microsoft/harrier-oss-v1-0.6b",
+  "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+  "selfcheck_cosines": [
+    0.9999999999994582,
+    0.9999999999987668,
+    0.9999999999994859
+  ],
+  "provenance": {
+    "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+    "model": "microsoft/harrier-oss-v1-0.6b",
+    "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+    "max_length": 1024,
+    "dtype": "float32",
+    "pooling": "last_token_l2",
+    "B": 512,
+    "device": "cuda",
+    "query_style": "harrier",
+    "dim": 1024,
+    "version": "emb-v2"
+  }
+}

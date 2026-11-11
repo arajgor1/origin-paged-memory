@@ -1,0 +1,11 @@
+key,lo,hi,n,mean_predicted,mean_observed,split,run_ids
+bin01,0.0,1.0,15,0.9333333333333333,0.7333333333333333,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin02,1.0,1.0,15,1.0,0.8666666666666667,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin03,1.0,1.0,15,1.0,0.7333333333333333,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin04,1.0,1.0,15,1.0,0.5333333333333333,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin05,1.0,1.0,15,1.0,0.6666666666666666,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin06,1.0,1.0,15,1.0,0.6,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin07,1.0,1.0,15,1.0,0.6,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin08,1.0,1.0,15,1.0,0.8,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin09,1.0,1.0,15,1.0,0.8,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a
+bin10,1.0,1.0,15,1.0,0.8,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a

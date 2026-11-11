@@ -1,0 +1,10 @@
+{
+  "script": "code/interim_figures.py",
+  "inputs": [
+    {
+      "path": "tables/fig_h5_thread_depth_test_with_dev_pilot.csv",
+      "sha256": "114b1c7523204266e153aab190c51181630efef77e8010e0e496a5d39b4f2221"
+    }
+  ],
+  "created_at": "2026-11-08T08:30:28Z"
+}

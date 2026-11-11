@@ -1,0 +1,37 @@
+# P4 Step 2 (owner instruction 2026-11-08): B1 IN PARALLEL with V3, chunk 1 of 2, optimizer steps 0 -> 1000 of 2000. From scratch (chunk 1) with the pilot's data and configuration; NO evaluations (no_eval); checkpoints at steps [400, 600, 800, 1000].
+# No resume. When V3 stops at L: `g2 --v3-step L --b1-parallel` evaluates B1 at its step-L checkpoint.
+name: p4-b1-par-c01
+envelope: E4
+track: B
+hypotheses: [H4, G2]
+system: B1
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.train:main
+args:
+  arm: B1
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  headers: true
+  eval_every: 0
+  max_opt_steps: 1000
+  save_checkpoint_at: [400, 600, 800, 1000]
+  no_eval: true
+  time_budget_s: 10000
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "300 s load + 60 s preflight (guessed) + 1000 steps x 5.0 s (measured, B1 pilot run c83bf32-a14d) + 4 checkpoint uploads x 15 s (guessed) = 5420 s x 0.00034544 $/s = $1.87"
+estimate_usd: 1.87
+max_usd: 3.74                                # 2x the estimate; launcher timeout = floor(3.74 / 0.00034544) = 10,826 s
+max_api_usd: 0

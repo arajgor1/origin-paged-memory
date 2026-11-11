@@ -1,0 +1,27 @@
+# Job spec for `python -m opa.launch run jobs/<name>.yaml`. Copy and fill. One job = one batch of work. (v3)
+name: track-a-s2-mtlbmhqa-16k-pilot           # short, unique, human-readable
+envelope: E1                                  # must be approved in budget/approvals.yaml
+track: A                                      # A | A2 | B | C
+hypotheses: [H1, H3, H5]
+system: S2                                    # protocol system / variant / arm id
+dataset: mtlbmhqa                             # lbmhqa | mtlbmhqa | drift | musique | 2wiki | hotpot | babilong | longbench | ...
+cell: T8-16k-cross                            # grid cell
+split: dev                                    # dev before the prereg-v2 tag; test only after it
+seed: 17
+entrypoint: opa.tracks.track_a:run_system     # module:function inside opa/
+args:                                         # passed to the entrypoint unchanged
+  items_uri: gs://BUCKET/opa/data/mtlbmhqa/dev/v1/items.jsonl.gz
+  n_items: 50
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507    # open model served by vLLM on Modal; no Anthropic API in v3
+compute:
+  kind: gpu                                   # cpu | gpu
+  gpu: L4                                     # L4 (default) | T4 (small jobs); nothing larger in v3
+  image: vllm                                 # default | vllm (vllm = inference image, L4 only)
+  cpu: 4.0
+  memory_gib: 16
+# Money. Write the estimate formula; max_usd is a hard ceiling (the Modal timeout derived from it enforces it).
+estimate_formula: "(50 items x 40 s/item (measured in A-S2-...-dev, n=10) + 300 s start-up and model load) = 2300 s x (L4 0.000222 + 4.0 cores x 0.0000131 + 16 GiB x 0.00000222 = 0.00031 $/s) = $0.71"
+estimate_usd: 0.75
+max_usd: 1.5
+max_api_usd: 0                                # required, always 0 in v3

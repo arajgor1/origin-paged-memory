@@ -1,0 +1,17 @@
+name: smoke-gpu
+envelope: E0
+track: X
+hypotheses: [G0]
+system: smoke
+dataset: none
+cell: t4
+split: dev
+seed: 0
+entrypoint: opa.tracks.smoke:main
+args: {gpu_check: true}
+models: {}
+compute: {kind: gpu, gpu: T4, cpu: 2.0, memory_gib: 16}
+estimate_formula: "image pull + 2 minutes on a T4 at about $0.59/h plus CPU and memory: about $0.04"
+estimate_usd: 0.10
+max_usd: 1.00
+max_api_usd: 0

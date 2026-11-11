@@ -1,0 +1,46 @@
+name: bench-lb-w16
+envelope: E2
+track: A
+hypotheses:
+- throughput-benchmark
+system: S2+S8+S11+S4
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 48
+    offset: 0
+  systems:
+  - S2
+  - S8
+  - S11
+  - S4
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa+mtlbmhqa-3cells-dev-s0-20261107041041-2b257da-a07c/embeddings.npz
+  workers: 16
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-lbmhqa-late-h2-32k-a0-dev-s0-20261107140747-99677c4-97eb/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '48 items x (S2 0.92 s + S8 17.08 s + S11 18.42 s + S4 52.14 s) measured at workers 8 = 4251 s x $0.000345/s + $0.066 start-up (conservative: workers 16 should be faster) = $1.534 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $3.069'
+estimate_usd: 1.54
+max_usd: 3.07
+max_api_usd: 0
+notes:
+- throughput benchmark (owner request 2026-11-07); outcomes already seen; not a result
+- workers 16; same opts, vectors and skeletons as the launched p1-lb-late-h2; items 0-47; items 50-79 are the blind H3 candidate items and are not used
+- 'headroom frozen at generation: E0 2.39, E2 3.10; envelope assigned greedily in launch order'

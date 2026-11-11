@@ -1,0 +1,6 @@
+key,split,n_runs,run_ids,n_items,systems,n_records,config_version,prompt_version,git_sha,em_check
+h1-lb,dev,1,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168,50,S1;S11;S18;S2;S4;S8,S1=50;S11=50;S18=50;S2=50;S4=50;S8=50,,,a0c95f6f56acec9537107c49ace55499809922f2,ok
+h1-s4,dev,1,A-S4-lbmhqa-late-h2-32k-a0-dev-s0-20261107185331-1d7070d-f13c,50,S4,S4=50,S4=s4-v2,,1d7070d8a8dc8ef0957bf9e38b2a5eadc1b3147c,ok
+h5-mt,dev,1,A-S12+S14+S15+S16+S18-mtlbmhqa-T4-h3-32k-cross-dev-s0-20261107163638-1aaa09a-db29,50,S12;S14;S15;S16;S18,S12=50;S14=50;S15=50;S16=50;S18=50,,,1aaa09adfe6f5488dbd1d1c17b8a40e5671eff23,ok
+h10-pin,dev,1,A-thrash-pin-thrash-r3+r4+r6-dev-s0-20261107151336-a9bc456-d940,90,thrash,records=90,,thrash=thrash-v2,a9bc456b3f5282f94ff40bd9d78818605418ef81,ok
+h10-nopin,dev,1,A-thrash-nopin-thrash-r3+r4+r6-dev-s0-20261107151338-a9bc456-c13b,90,thrash,records=90,,thrash=thrash-v2,a9bc456b3f5282f94ff40bd9d78818605418ef81,ok

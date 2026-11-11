@@ -1,0 +1,33 @@
+name: h5cell-embed
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: embed
+dataset: mtlbmhqa
+cell: T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:embed_items
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+    offset: 5
+  embedder: harrier
+  B: 512
+  batch: 16
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 12
+estimate_formula: 50 items (T8-h3-32k-cross, 5-54) x $0.0018/item (measured, incl. start-up) = $0.090 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 24 GiB(limit) x 0.00000222 = 0.000328 $/s); max_usd = 2 x the estimate = $0.180
+estimate_usd: 0.09
+max_usd: 0.18
+max_api_usd: 0
+notes:
+- fresh 50-item embed (the P0 npz holds T8 items 0-9 only and a job reads one npz)
+- 'headroom frozen at generation: E2 6.85; envelope E2 (E1 is exhausted)'

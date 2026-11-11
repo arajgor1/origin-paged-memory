@@ -1,0 +1,4 @@
+key,status,gate_dependency,envelope,approved_usd,spent_usd,note
+TrackC,not run (gate G2 failed),G2,E5,2.62,0.0,"Track C starts only if G2 passes; G2 failed, so no H9 run; owner request budget/requests/H9_exploratory.md"
+H9,not_run_gate_failed (G2); owner request budget/requests/H9_exploratory.md,G2,E5,2.62,0.0,"page-in by copy vs re-encoding; a measurement; gate G2 failed (bundle/gates/G2.json): not run, by the pre-registered gate rule; the owner asked for an exploratory request with a cost estimate instead"
+H13,not_run_gate_failed (G2),G2,,,,gate G2 failed (bundle/gates/G2.json): not run; also not funded in the approved package (registration Section 2b)

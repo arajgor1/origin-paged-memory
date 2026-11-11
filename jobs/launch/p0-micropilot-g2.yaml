@@ -1,0 +1,48 @@
+name: p0-micropilot-g2
+envelope: E1
+track: A
+hypotheses:
+- P0-unit-costs
+system: S5+S6+S8+S13+S15+S12F
+dataset: lbmhqa+mtlbmhqa
+cell: late-h3-32k-a0+T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+    n_items: 5
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 5
+  systems:
+  - S5
+  - S6
+  - S8
+  - S13
+  - S15
+  - S12F
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa+mtlbmhqa-3cells-dev-s0-20261107041041-2b257da-a07c/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-lbmhqa+mtlbmhqa-late-h3-32k-a0+T8-h3-32k-cross-dev-s0-20261107045653-2daf910-d362/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 285 s start-up (vLLM 240 + live fallback embedder 45) + S5 10 x 24.9 s [(38000 prefill tok / 4000 + 1200 out tok / 120) x 1.25 + 0.5 s CPU] + S6 10 x 50.0 s [(62000 prefill tok / 4000 + 2800 out tok / 120) x 1.25 + 1.5 s CPU] + S8 10 x 50.0 s [(62000 prefill tok / 4000 + 2800 out tok / 120) x 1.25 + 1.5 s CPU] + S13 10 x 30.4 s [(44000 prefill tok / 4000 + 1500 out tok / 120) x 1.25 + 1.0 s CPU] + S15 10 x 34.4 s [(42000 prefill tok / 4000 + 1900 out tok / 120) x 1.25 + 1.5 s CPU] + S12F 10 x 37.4 s [(42000 prefill tok / 4000 + 1900 out tok / 120) x 1.25 + 4.5 s CPU] = 2557 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.883
+estimate_usd: 0.89
+max_usd: 1.77
+max_api_usd: 0
+notes:
+- '10 dev items per system: 5 LB late h3 32K + 5 MT T8 h3 32K cross; systems: S5, S6, S8, S13, S15, S12F; outputs under <system>/r0/'
+- fill the embedding run-id placeholder and the skeleton run-id placeholder from the jobs they name (python jobs/make_p0_jobs.py --embed-run-id ... writes jobs/launch/)

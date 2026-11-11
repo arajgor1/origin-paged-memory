@@ -1,0 +1,47 @@
+name: p1-mt-t4-arms
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: S12+S14+S15+S16+S18
+dataset: mtlbmhqa
+cell: T4-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+  systems:
+  - S12
+  - S14
+  - S15
+  - S16
+  - S18
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa+mtlbmhqa-5cells-dev-s0-20261107114211-40530d3-59b1/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-mtlbmhqa-T4-h3-32k-cross-dev-s0-20261107140751-99677c4-251f/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 189 s start-up + 50 items x (S12 15.7 s + S14 15.5 s + S15 15.3 s + S16 33.3 s + S18 15.8 s) per item (measured wall s/item, micro-pilot re-run) = 4969 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $1.716
+estimate_usd: 1.72
+max_usd: 3.44
+max_api_usd: 0
+notes:
+- MT T4 h3 cross is the leading H5 cell (distortion ratio 1.361 vs 1.291 for T8); S18 here is the oracle-solvability check
+- 'arms: S12 = A2 hyperbolic, S14 = A1 Euclidean, S15 = A3 tree distance, S16 = A0 (lambda 0); the A4 arm (S12F) runs in P2'
+- estimate = measured micro-pilot seconds per item (5 LB late h3 + 5 MT T8 cross items); other cells are extrapolated
+- 'headroom frozen at generation: E1 2.33, E2 22.00; stage A and Track B spend are in the ledger; envelope assigned greedily in launch order'

@@ -1,0 +1,74 @@
+{
+  "id": "H1",
+  "statement": "Fold-left with skeleton and graph faults beats one-shot retrieval on late-binding multi-hop questions",
+  "verdict": "supported",
+  "results": [
+    {
+      "key": "S11_vs_S2_lbmhqa_late_32k_primary",
+      "level": "agent",
+      "value": 14.168039538714991,
+      "ci95": [
+        9.221581548599675,
+        19.110378912685338
+      ],
+      "n": 607,
+      "p_raw": 5.013407867885339e-08,
+      "p_holm": 2.0053631471541355e-07,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100200-20261108022822-fb3701f-b7ca",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100201-20261108031643-977b8c7-5518",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100202-20261108041022-2bfe0ed-7413",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100203-20261108043835-751540b-1c87",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100204-20261108043837-7433a0d-8934",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108055403-10a14e2-6c9a"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=S11_vs_S2_lbmhqa_late_32k_primary",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    },
+    {
+      "key": "S11_vs_S4_lbmhqa_late_32k_primary",
+      "level": "agent",
+      "value": 39.64194373401534,
+      "ci95": [
+        33.248081841432224,
+        45.78005115089514
+      ],
+      "n": 391,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100200-20261108022822-fb3701f-b7ca",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100201-20261108031643-977b8c7-5518",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100202-20261108041022-2bfe0ed-7413",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100203-20261108043835-751540b-1c87",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100204-20261108043837-7433a0d-8934",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108055403-10a14e2-6c9a",
+        "A-S4-lbmhqa-late-h2-32k-a0-test-s100300-20261108015026-9769f0a-908f",
+        "A-S4-lbmhqa-late-h2-32k-a0-test-s100301-20261108031648-a0f5b2c-684f",
+        "A-S4-lbmhqa-late-h2-32k-a0-test-s100302-20261108053839-45b852e-fff4",
+        "A-S4-lbmhqa-late-h2-32k-a0-test-s100303-20261108054455-d9ff786-20d6",
+        "A-S4-lbmhqa-late-h2-32k-a0-test-s100304-20261108015023-37f3161-cc7c"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=S11_vs_S4_lbmhqa_late_32k_primary",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    }
+  ],
+  "figures": [
+    "figures/fig_h1_depth_context_test_with_dev_pilot.png"
+  ],
+  "deviations": [
+    "DEV-G0-noise",
+    "DEV-PLAN-REV3",
+    "DEV-G1-OVERRIDE",
+    "DEV-S4-V2",
+    "DEV-FAILED-RUNS",
+    "DEV-OWNER-INTERIM"
+  ],
+  "notes": "Primary cell LB-MHQA late h=2, 32K (primary h = 2 after the G0 fallback). Sized for 7 points (design power 0.52 at the 5-point rule threshold, disclosed). S4 is the v2 baseline. A failed first attempt of one H1 container was replaced by its retry (DEV-FAILED-RUNS)."
+}

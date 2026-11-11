@@ -1,0 +1,36 @@
+name: h3cells-embed
+envelope: E1
+track: A
+hypotheses:
+- H3
+system: embed
+dataset: lbmhqa
+cell: late-h2+late-h3
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:embed_items
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 30
+    offset: 50
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+    n_items: 30
+    offset: 50
+  embedder: harrier
+  B: 512
+  batch: 16
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 12
+estimate_formula: 60 items (late-h2-32k-a0 and late-h3-32k-a0, items 50-79) x $0.0018/item (measured, incl. start-up) = $0.108 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 24 GiB(limit) x 0.00000222 = 0.000328 $/s); max_usd = 2 x the estimate = $0.216
+estimate_usd: 0.11
+max_usd: 0.22
+max_api_usd: 0
+notes:
+- one embeddings.npz for both cells (keys item_id/origin_id); items 50-79 are fresh (the pilot used 0-49)
+- 'headroom frozen at generation: E1 1.92, E2 8.71; envelope assigned greedily in launch order'

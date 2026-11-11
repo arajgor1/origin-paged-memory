@@ -1,0 +1,36 @@
+name: p2-sk-mt-c02
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: sllm
+dataset: mtlbmhqa
+cell: T4-h3-32k-cross
+split: test
+seed: 100501
+entrypoint: opa.tracks.track_a:build_skeletons
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/test/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 83
+    offset: 83
+  workers: 24
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 83 items x $0.0246/item (sllm-v2, 24 workers, net) + $0.066 start-up = $2.111 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $4.222
+estimate_usd: 2.12
+max_usd: 4.23
+max_api_usd: 0
+notes:
+- items 83-165; sllm-v2 rebuilt builder
+- 'package line: H5 agent arms (delta 5) + TOST on MT T4 default M [delta 5, n=249, TOST 191]'

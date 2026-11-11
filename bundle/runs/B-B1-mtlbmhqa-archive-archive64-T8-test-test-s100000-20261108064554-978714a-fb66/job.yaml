@@ -1,0 +1,49 @@
+name: p4-h4-test-b1-c01
+envelope: E4
+track: B
+hypotheses:
+- H4
+system: B1
+dataset: mtlbmhqa-archive
+cell: archive64-T8-test
+split: test
+seed: 100000
+entrypoint: opa.trackb.train:main
+args:
+  arm: B1
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  headers: true
+  eval_every: 0
+  monitor:
+    attrib: 1226
+    passkey: 0
+    probe: 0
+  max_opt_steps: 600
+  eval_at_steps:
+  - 600
+  save_checkpoint_at: []
+  eval_split: test
+  prereg_tag:
+    tag: prereg-v2
+    commit: c8a0a5e910abf2da315bd00425f5c90d9e82600c
+  resume_from: gs://{bucket}/opa/models/B-B1-mtlbmhqa-archive-archive64-T8-dev-s0-20261108044732-a400cda-cae6/step600/checkpoint.pt
+  skip_resume_eval: true
+  save_adapter: false
+  monitor_seed0: 100000
+  time_budget_s: 6000
+  expected_resume_sha256: eeccb50e8f89f95dd82f008a376a6b6b245137c633a3017fd01b10b136ed8bff
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 270 s overhead + 1226 items x 2.95 s (measured upper bound, G2 eval
+  run) = 3887 s x 0.00034544 $/s = $1.34
+estimate_usd: 1.34
+max_usd: 2.68
+max_api_usd: 0

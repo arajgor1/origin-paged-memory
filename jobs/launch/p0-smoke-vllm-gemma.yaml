@@ -1,0 +1,40 @@
+name: p0-smoke-vllm-gemma
+envelope: E0
+track: A
+hypotheses:
+- P0-unit-costs
+system: S1
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 2
+  system: S1
+  embedder: hash
+  workers: 2
+  model:
+    kind: open_local
+    name: gemma
+    max_model_len: 40960
+    extra_args:
+    - --limit-mm-per-prompt
+    - '{"image": 0, "audio": 0}'
+models:
+  agent_model: google/gemma-4-E4B-it
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 24
+estimate_formula: '480 s start-up (first download of the weights + vLLM load) + 2 items x 19.5 s (S1: 34.5K prefill tok / 1800 tok/s + 40 out tok / 120 tok/s) x 1.25 = 529 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 48 GiB(limit) x 0.00000222 = 0.000381 $/s) = $0.201'
+estimate_usd: 0.21
+max_usd: 0.41
+max_api_usd: 0
+notes:
+- 'smoke: proves the vLLM image, the memory at max_model_len 40960 and one S1 answer; embedder ''hash'' is used on purpose (S1 does not use embeddings), so this job does not depend on p0-embed-dev'
+- 'check the run''s metrics: n=2, errors=0, does_not_fit=0, and that the prediction field is non-empty'
+- 'Gemma: image/audio inputs disabled (JSON form of --limit-mm-per-prompt, vLLM >= 0.10; if the served vLLM wants the legacy form use [''--limit-mm-per-prompt'', ''image=0,audio=0'']). Risk: ~16 GB bf16 weights leave only ~3-4 GB of KV on an L4; if vLLM refuses 40960, retry once with max_model_len 32768 and log it'

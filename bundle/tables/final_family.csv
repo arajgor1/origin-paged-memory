@@ -1,0 +1,9 @@
+key,hypothesis,primary_key,p_raw,p_holm,family_m,status,holm_status,family
+H1,H1,S11_vs_S2_lbmhqa_late_32k_primary,0.00000005013407867885339,0.00000020053631471541355,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H2,H2,D4_vs_D2_retention_t50,,,6,inconclusive (not funded),final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H3,H3,S11_vs_S8_late_bound,0.36159460805356514,1.0,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H4,H4,V3_vs_B1_source_attribution,0.0,0.0,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H5,H5,A2_vs_A1_agent_mtlbmhqa_32k_primary_cross,1.0,1.0,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H6,H6,R5_vs_R1_accuracy,0.8145294189453125,1.0,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H10,H10,pinned_vs_unpinned_repeat_pagein_reduction,0.000000000000000000000000000000000000000000000000000000029359616849780564,0.00000000000000000000000000000000000000000000000000000014679808424890283,6,available,final Holm,H1;H2;H3;H4;H5;H6;H10;H12
+H12,H12,V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k,,,6,not_run_gate_failed (G2),final Holm,H1;H2;H3;H4;H5;H6;H10;H12

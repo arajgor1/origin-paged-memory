@@ -1,0 +1,10 @@
+{
+  "id": "G3",
+  "passed": null,
+  "decided_at": "2026-11-08T08:29:56Z",
+  "criteria": [],
+  "evidence": [
+    "gates/G2.json"
+  ],
+  "notes": "Not reached: G2 failed, so the phases this gate closes were skipped (CLAUDE.md s3)."
+}

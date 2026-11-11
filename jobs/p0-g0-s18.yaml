@@ -1,0 +1,38 @@
+name: p0-g0-s18
+envelope: E0
+track: A
+hypotheses:
+- G0
+system: S18
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 50
+  system: S18
+  embedder: precomputed:gs://{bucket}/opa/runs/EMBED_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/SKELETON_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 285 s start-up (vLLM 240 + live fallback embedder 45) + S18 50 x 25.5 s [(30000 prefill tok / 4000 + 1400 out tok / 120) x 1.25 + 1.5 s CPU] = 1558 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.538
+estimate_usd: 0.54
+max_usd: 1.08
+max_api_usd: 0
+notes:
+- fill the embedding run-id placeholder and the skeleton run-id placeholder from the jobs they name (python jobs/make_p0_jobs.py --embed-run-id ... writes jobs/launch/)

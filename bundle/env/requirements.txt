@@ -1,0 +1,10 @@
+modal>=1.6
+anthropic
+google-cloud-storage
+pyyaml
+jsonschema
+numpy
+scipy
+pandas
+matplotlib
+pytest

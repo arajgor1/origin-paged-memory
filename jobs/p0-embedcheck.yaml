@@ -1,0 +1,47 @@
+name: p0-embedcheck
+envelope: E0
+track: A
+hypotheses:
+- P0-pilot-check
+system: embedcheck
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:embedder_check
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 50
+  offset: 0
+  M: 4
+  ks:
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16
+  B: 512
+  embedders:
+  - label: harrier-0.6b
+    name: precomputed:gs://{bucket}/opa/runs/EMBED_RUN_ID/embeddings.npz
+  - label: qwen3-embedding-4b
+    name: Qwen/Qwen3-Embedding-4B
+    dtype: bfloat16
+    batch: 8
+  baseline: harrier-0.6b
+  challenger: qwen3-embedding-4b
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+  embedder_backup: Qwen/Qwen3-Embedding-4B
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 24
+estimate_formula: 450 s start-up (8 GB download + bf16 GPU load 360 s, + 90 s CPU fp32 reference for the self-check) + 50 items x 37400 tokens / 4800 tok/s (Qwen3-Embedding-4B bf16; harrier vectors are read from p0-embed-dev, not recomputed) = 840 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 48 GiB(limit) x 0.00000222 = 0.000381 $/s) = $0.320
+estimate_usd: 0.32
+max_usd: 0.64
+max_api_usd: 0
+notes:
+- Qwen3-Embedding-4B runs bf16 on the GPU; its self-check (threshold 0.99 for bf16, set by embedder_check) loads the fp32 reference on the CPU (~16 GB), hence memory_gib 24 (limit 48)
+- the run id of p0-embed-dev replaces the embedding placeholder in the harrier path; the first 50 items there are the same items (offset 0)

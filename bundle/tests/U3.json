@@ -1,0 +1,56 @@
+{
+  "id": "U3",
+  "name": "M5 with a single origin reproduces the unpatched model",
+  "passed": true,
+  "details": "M5 fresh frame, one origin of 256 tokens: max |logit diff| vs the unpatched model = 0.0; with a 8-token red-dot prefix (positions 0..7, origin 8..263): 0.0 (same kernel; criterion exact 0). Ungated: vs stock sdpa 0.00e+00. bfloat16 pass (parameters cast in place, OAA parameters and rotary buffers fp32): pass, see rec['bf16'].",
+  "run_id": "B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d",
+  "criterion": "logits identical (max abs diff == 0, same attention kernel)",
+  "metrics": {
+    "single_origin": {
+      "max_abs_logit_diff": 0.0,
+      "positions_equal_arange": true,
+      "T": 256,
+      "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.0
+    },
+    "single_origin_red_dot_prefix": {
+      "max_abs_logit_diff": 0.0,
+      "positions_equal_arange": true,
+      "T": 264,
+      "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.0
+    }
+  },
+  "seconds": 2.343,
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false,
+    "gpu_mem_after_load_gib": 15.08
+  },
+  "bf16": {
+    "dtype": "bfloat16",
+    "passed": true,
+    "metrics": {
+      "single_origin": {
+        "max_abs_logit_diff": 0.0,
+        "positions_equal_arange": true,
+        "T": 256,
+        "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.765625
+      },
+      "single_origin_red_dot_prefix": {
+        "max_abs_logit_diff": 0.0,
+        "positions_equal_arange": true,
+        "T": 264,
+        "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.8359375
+      }
+    },
+    "details": "M5 fresh frame, one origin of 256 tokens: max |logit diff| vs the unpatched model = 0.0; with a 8-token red-dot prefix (positions 0..7, origin 8..263): 0.0 (same kernel; criterion exact 0). Ungated: vs stock sdpa 7.66e-01."
+  }
+}

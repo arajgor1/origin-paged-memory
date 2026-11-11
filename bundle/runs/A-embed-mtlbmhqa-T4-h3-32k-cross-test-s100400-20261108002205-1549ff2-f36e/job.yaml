@@ -1,0 +1,36 @@
+name: p2-embed-mt-c01
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: embed
+dataset: mtlbmhqa
+cell: T4-h3-32k-cross
+split: test
+seed: 100400
+entrypoint: opa.tracks.track_a:embed_items
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/test/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 83
+    offset: 0
+  embedder: harrier
+  B: 512
+  batch: 16
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 12
+estimate_formula: 83 items x $0.0018/item (measured) = $0.149 (container rate L4 0.000222
+  + 4 cores(limit) x 0.0000131 + 24 GiB(limit) x 0.00000222 = 0.000328 $/s); max_usd
+  = 2 x the estimate = $0.299
+estimate_usd: 0.15
+max_usd: 0.3
+max_api_usd: 0
+notes:
+- items 0-82 of the MT T4 h3 cross test cell
+- 'package line: H5 agent arms (delta 5) + TOST on MT T4 default M [delta 5, n=249,
+  TOST 191]'

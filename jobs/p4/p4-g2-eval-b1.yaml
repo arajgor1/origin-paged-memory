@@ -1,0 +1,43 @@
+# P4 Step 3 (PLAN_V3 6a): G2 evaluation of the final B1 checkpoint (step 600) on FRESH dev seeds 3000+ (128 attribution, 32 passkey items, 6 probe windows). Evaluation only: the entrypoint resumes, trains 0 steps,
+# and writes final_eval.json (per-item correctness and identities) and learning_curve.json. Fill P4_B1PAR_C01_RUN_ID with the run id of the final B1 chunk.
+name: p4-g2-eval-b1
+envelope: E4
+track: B
+hypotheses: [H4, G2]
+system: B1
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.train:main
+args:
+  arm: B1
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  headers: true
+  eval_every: 0
+  monitor: {"attrib": 128, "passkey": 32, "probe": 6}
+  max_opt_steps: 600
+  eval_at_steps: [600]
+  save_checkpoint_at: []
+  resume_from: gs://{bucket}/opa/models/P4_B1PAR_C01_RUN_ID/step600/checkpoint.pt
+  skip_resume_eval: true
+  save_adapter: false
+  monitor_seed0: 3000
+  time_budget_s: 1200
+  expected_resume_sha256: eeccb50e8f89f95dd82f008a376a6b6b245137c633a3017fd01b10b136ed8bff
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "300 s load + 60 s preflight (guessed) + the measured 240 s evaluation (64 + 32 items + 3 probe windows = 126 units with a probe window weighted as 10 items, an assumption) scaled to 128 + 32 items + 6 windows = 220 units = 779 s x 0.00034544 $/s = $0.27"
+estimate_usd: 0.27
+max_usd: 0.54                                # 2x the estimate; launcher timeout = floor(0.54 / 0.00034544) = 1,563 s
+max_api_usd: 0

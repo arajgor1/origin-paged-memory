@@ -1,0 +1,361 @@
+{
+  "runs": {
+    "S11/r0": {
+      "n": 86,
+      "em": 0.8023255813953488,
+      "f1": 0.881484794275492,
+      "evidence_precision": 0.5123385012919897,
+      "evidence_recall": 0.8023255813953488,
+      "mean_tokens_in": 47192.56976744186,
+      "mean_tokens_out": 1996.8255813953488,
+      "mean_page_ins": 68.12790697674419,
+      "mean_necessary_faults": 1.6395348837209303,
+      "mean_spurious_faults": 2.488372093023256,
+      "spurious_fault_rate": 0.6028169014084507,
+      "thread_confusion_rate": NaN,
+      "failure_codes": {
+        "F1": 0,
+        "F2": 14,
+        "F3": 0,
+        "F4": 0,
+        "F5": 0,
+        "F6": 0,
+        "F7": 3,
+        "F8": 0,
+        "F9": 0,
+        "F10": 0
+      },
+      "cost_usd": 0.0,
+      "mean_cost_usd": 0.0,
+      "mean_wall_ms": 196649.18604651163,
+      "n_error": 0,
+      "error_rate": 0.0,
+      "system": "S11",
+      "oracle": false,
+      "tokens_in": 4058561,
+      "tokens_out": 171727,
+      "errors": 0,
+      "answer_parse": {
+        "salvaged": 0,
+        "salvaged_retry": 0,
+        "retried": 0,
+        "unparseable": 0,
+        "empty": 0
+      },
+      "n_transport_retries": 0,
+      "n_gcs_retries": 0,
+      "stop_reasons": {
+        "exhausted": 86
+      },
+      "answer_salvaged_without_citations": 0,
+      "repeat": 0,
+      "started_at": "2026-11-08T03:21:53.924244+00:00",
+      "finished_at": "2026-11-08T03:42:07.602765+00:00",
+      "wall_seconds": 1213.678519487381,
+      "n_llm_calls": 2461,
+      "cached_tokens": 719472,
+      "uncached_prompt_tokens": 3339089,
+      "gpu_seconds_share": 1213.678519487381,
+      "first_request_cached_tokens": 0,
+      "first_request_prompt_tokens": 1819,
+      "sub_run_id": "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c~S11~r0",
+      "repeat_kind": "same_container",
+      "n_gcs_retries_total": 0,
+      "provenance": {
+        "chat": {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+          "vllm_version": "0.32.0",
+          "dtype": "bfloat16",
+          "max_model_len": 40960,
+          "seed": 0,
+          "prefix_caching": true,
+          "server_env": {
+            "VLLM_SERVER_DEV_MODE": "1",
+            "VLLM_USE_FLASHINFER_SAMPLER": "0"
+          },
+          "extra_args": [],
+          "vllm_ready_at": "2026-11-08T03:21:53.588534+00:00",
+          "vllm_start_seconds": 185.2689344882965
+        },
+        "embedder": {
+          "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+          "model": "microsoft/harrier-oss-v1-0.6b",
+          "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+          "max_length": 1024,
+          "dtype": "float32",
+          "pooling": "last_token_l2",
+          "B": 512,
+          "device": "cuda",
+          "query_style": "harrier",
+          "dim": 1024,
+          "version": "emb-v2"
+        },
+        "seed": 100205,
+        "run_order": [
+          "S11~r0",
+          "S2~r0",
+          "S8~r0"
+        ],
+        "repeat_kind": "same_container",
+        "n_gcs_retries_total": 0
+      }
+    },
+    "S2/r0": {
+      "n": 86,
+      "em": 0.6395348837209303,
+      "f1": 0.7906976744186046,
+      "evidence_precision": NaN,
+      "evidence_recall": 0.0,
+      "mean_tokens_in": 4364.197674418605,
+      "mean_tokens_out": 20.1046511627907,
+      "mean_page_ins": 8.0,
+      "mean_necessary_faults": 0.0,
+      "mean_spurious_faults": 0.0,
+      "spurious_fault_rate": NaN,
+      "thread_confusion_rate": NaN,
+      "failure_codes": {
+        "F1": 0,
+        "F2": 31,
+        "F3": 0,
+        "F4": 0,
+        "F5": 0,
+        "F6": 0,
+        "F7": 0,
+        "F8": 0,
+        "F9": 0,
+        "F10": 0
+      },
+      "cost_usd": 0.0,
+      "mean_cost_usd": 0.0,
+      "mean_wall_ms": 13295.279069767443,
+      "n_error": 0,
+      "error_rate": 0.0,
+      "system": "S2",
+      "oracle": false,
+      "tokens_in": 375321,
+      "tokens_out": 1729,
+      "errors": 0,
+      "answer_parse": {
+        "salvaged": 0,
+        "salvaged_retry": 0,
+        "retried": 0,
+        "unparseable": 0,
+        "empty": 0
+      },
+      "n_transport_retries": 0,
+      "n_gcs_retries": 0,
+      "stop_reasons": {},
+      "answer_salvaged_without_citations": 0,
+      "repeat": 0,
+      "started_at": "2026-11-08T03:42:08.252825+00:00",
+      "finished_at": "2026-11-08T03:43:23.752584+00:00",
+      "wall_seconds": 75.49975848197937,
+      "n_llm_calls": 86,
+      "cached_tokens": 6768,
+      "uncached_prompt_tokens": 368553,
+      "gpu_seconds_share": 75.49975848197937,
+      "first_request_cached_tokens": 0,
+      "first_request_prompt_tokens": 4405,
+      "sub_run_id": "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c~S2~r0",
+      "repeat_kind": "same_container",
+      "n_gcs_retries_total": 0,
+      "provenance": {
+        "chat": {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+          "vllm_version": "0.32.0",
+          "dtype": "bfloat16",
+          "max_model_len": 40960,
+          "seed": 0,
+          "prefix_caching": true,
+          "server_env": {
+            "VLLM_SERVER_DEV_MODE": "1",
+            "VLLM_USE_FLASHINFER_SAMPLER": "0"
+          },
+          "extra_args": [],
+          "vllm_ready_at": "2026-11-08T03:21:53.588534+00:00",
+          "vllm_start_seconds": 185.2689344882965
+        },
+        "embedder": {
+          "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+          "model": "microsoft/harrier-oss-v1-0.6b",
+          "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+          "max_length": 1024,
+          "dtype": "float32",
+          "pooling": "last_token_l2",
+          "B": 512,
+          "device": "cuda",
+          "query_style": "harrier",
+          "dim": 1024,
+          "version": "emb-v2"
+        },
+        "seed": 100205,
+        "run_order": [
+          "S11~r0",
+          "S2~r0",
+          "S8~r0"
+        ],
+        "repeat_kind": "same_container",
+        "n_gcs_retries_total": 0
+      }
+    },
+    "S8/r0": {
+      "n": 86,
+      "em": 0.7906976744186046,
+      "f1": 0.8698568872987478,
+      "evidence_precision": 0.5067814775663613,
+      "evidence_recall": 0.7965116279069767,
+      "mean_tokens_in": 47111.104651162794,
+      "mean_tokens_out": 2012.7093023255813,
+      "mean_page_ins": 68.01162790697674,
+      "mean_necessary_faults": 1.5813953488372092,
+      "mean_spurious_faults": 2.4302325581395348,
+      "spurious_fault_rate": 0.6057971014492753,
+      "thread_confusion_rate": NaN,
+      "failure_codes": {
+        "F1": 0,
+        "F2": 14,
+        "F3": 0,
+        "F4": 0,
+        "F5": 0,
+        "F6": 0,
+        "F7": 4,
+        "F8": 0,
+        "F9": 0,
+        "F10": 0
+      },
+      "cost_usd": 0.0,
+      "mean_cost_usd": 0.0,
+      "mean_wall_ms": 198157.93023255814,
+      "n_error": 0,
+      "error_rate": 0.0,
+      "system": "S8",
+      "oracle": false,
+      "tokens_in": 4051555,
+      "tokens_out": 173093,
+      "errors": 0,
+      "answer_parse": {
+        "salvaged": 0,
+        "salvaged_retry": 0,
+        "retried": 0,
+        "unparseable": 0,
+        "empty": 0
+      },
+      "n_transport_retries": 0,
+      "n_gcs_retries": 0,
+      "stop_reasons": {
+        "exhausted": 86
+      },
+      "answer_salvaged_without_citations": 0,
+      "repeat": 0,
+      "started_at": "2026-11-08T03:43:24.420019+00:00",
+      "finished_at": "2026-11-08T04:02:11.180719+00:00",
+      "wall_seconds": 1126.7606976032257,
+      "n_llm_calls": 2453,
+      "cached_tokens": 715552,
+      "uncached_prompt_tokens": 3336003,
+      "gpu_seconds_share": 1126.7606976032257,
+      "first_request_cached_tokens": 0,
+      "first_request_prompt_tokens": 1839,
+      "sub_run_id": "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c~S8~r0",
+      "repeat_kind": "same_container",
+      "n_gcs_retries_total": 0,
+      "provenance": {
+        "chat": {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+          "vllm_version": "0.32.0",
+          "dtype": "bfloat16",
+          "max_model_len": 40960,
+          "seed": 0,
+          "prefix_caching": true,
+          "server_env": {
+            "VLLM_SERVER_DEV_MODE": "1",
+            "VLLM_USE_FLASHINFER_SAMPLER": "0"
+          },
+          "extra_args": [],
+          "vllm_ready_at": "2026-11-08T03:21:53.588534+00:00",
+          "vllm_start_seconds": 185.2689344882965
+        },
+        "embedder": {
+          "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+          "model": "microsoft/harrier-oss-v1-0.6b",
+          "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+          "max_length": 1024,
+          "dtype": "float32",
+          "pooling": "last_token_l2",
+          "B": 512,
+          "device": "cuda",
+          "query_style": "harrier",
+          "dim": 1024,
+          "version": "emb-v2"
+        },
+        "seed": 100205,
+        "run_order": [
+          "S11~r0",
+          "S2~r0",
+          "S8~r0"
+        ],
+        "repeat_kind": "same_container",
+        "n_gcs_retries_total": 0
+      }
+    }
+  },
+  "systems": [
+    "S11",
+    "S2",
+    "S8"
+  ],
+  "repeats": 1,
+  "repeat_kind": "same_container",
+  "run_order": [
+    "S11~r0",
+    "S2~r0",
+    "S8~r0"
+  ],
+  "complete": true,
+  "failure": null,
+  "server_startup_seconds": 189.51504516601562,
+  "n_gcs_retries_total": 0,
+  "vllm_ready_at": "2026-11-08T03:21:53.588534+00:00",
+  "provenance": {
+    "chat": {
+      "model": "Qwen/Qwen3-4B-Instruct-2507",
+      "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+      "vllm_version": "0.32.0",
+      "dtype": "bfloat16",
+      "max_model_len": 40960,
+      "seed": 0,
+      "prefix_caching": true,
+      "server_env": {
+        "VLLM_SERVER_DEV_MODE": "1",
+        "VLLM_USE_FLASHINFER_SAMPLER": "0"
+      },
+      "extra_args": [],
+      "vllm_ready_at": "2026-11-08T03:21:53.588534+00:00",
+      "vllm_start_seconds": 185.2689344882965
+    },
+    "embedder": {
+      "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+      "model": "microsoft/harrier-oss-v1-0.6b",
+      "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+      "max_length": 1024,
+      "dtype": "float32",
+      "pooling": "last_token_l2",
+      "B": 512,
+      "device": "cuda",
+      "query_style": "harrier",
+      "dim": 1024,
+      "version": "emb-v2"
+    },
+    "seed": 100205,
+    "run_order": [
+      "S11~r0",
+      "S2~r0",
+      "S8~r0"
+    ],
+    "repeat_kind": "same_container",
+    "n_gcs_retries_total": 0
+  }
+}

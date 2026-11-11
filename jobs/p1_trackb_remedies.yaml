@@ -1,0 +1,37 @@
+# Job spec for `python -m opa.launch run jobs/p1_trackb_remedies.yaml`. Pilot check 4 (H6): contextual-dependence remedies R0-R7 on the base Qwen3-4B, 48 dev MT-LB-MHQA windows (training-free; R2/R7 are oracle upper bounds).
+name: p1-remedies
+envelope: E1
+track: B
+hypotheses: [H6, G2]
+system: R0-R7
+dataset: mtlbmhqa-archive
+cell: T4-h2-8k-nocross
+split: dev
+seed: 0
+entrypoint: opa.trackb.remedies:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  n_items: 48
+  seed0: 0
+  C: 6
+  n_threads: 4
+  hops: 2
+  length: 8192
+  block_tokens: 512
+  time_budget_s: 1900        # no new item starts after this (minus a margin); items/<k>.json are written one by one
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # L4 (24 GB), bf16 weights 8.0 GB resident. Peak: weights 8 GB + a 3.4K-token prefill (dense [1, 32, 3.4K, 3.4K] bf16 masks 0.7 GB per layer, freed per layer) + the composed KV cache (36 layers x 3.4K x 8 x 128 x 2 x 2 B = 0.5 GB, a few clones) = about 11 GB.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000222 + 0.0000524 + 0.00007104 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "(240 s start-up + 48 items x about 33 s per item (a GUESS from the component timings, not measured: 1.5 s R0 prefill + 1.5 s R1 base + 1.5 s R3 + 4.5 s R5 x3 + 7.5 s R6 x2 + R4 first-token recomputes + 12 question passes x 0.4 s; the job writes each item as it goes and stops cleanly at time_budget_s) = 1824 s) x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 $/s) = $0.630"
+estimate_usd: 0.63
+max_usd: 0.75                                # launcher timeout = floor(0.75 / 0.00034544) = 2,171 s
+max_api_usd: 0

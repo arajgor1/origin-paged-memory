@@ -1,0 +1,34 @@
+{
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false
+  },
+  "sizes": {
+    "B": 128,
+    "n_origins": 4,
+    "tail": 16,
+    "u1_T": 64,
+    "u1_m0": 2560,
+    "u3_len": 256,
+    "red_dot": 8,
+    "m": 32
+  },
+  "global_fail_depth_bf16": 4,
+  "global_fail_depth_fp16": 7,
+  "global_fail_depth_fp32": 16,
+  "reanchored_error_growth_ratio_depth40_vs_depth1_bf16": 0.9608147107362868,
+  "U6_passed": true,
+  "U7_passed": true,
+  "U8_passed": false,
+  "all_passed": false,
+  "seconds": 40.3
+}

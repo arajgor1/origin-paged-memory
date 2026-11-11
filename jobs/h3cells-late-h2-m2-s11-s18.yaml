@@ -1,0 +1,47 @@
+name: h3cells-late-h2-m2-s11-s18
+envelope: E2
+track: A
+hypotheses:
+- H3
+system: S18+S11
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 30
+    offset: 50
+  systems:
+  - S18
+  - S11
+  embedder: precomputed:gs://{bucket}/opa/runs/H3CELLS_VEC_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+    M: 2
+  skeleton_llm_uri: gs://{bucket}/opa/runs/H3CELLS_SK2_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: $0.066 start-up + 30 items x (S18 $0.008 + S11 $0.014) per item = $0.726 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $1.452
+estimate_usd: 0.73
+max_usd: 1.46
+max_api_usd: 0
+notes:
+- 'cell (a): resident-page budget halved, opts M = 2 (default 4), for S11 and the S18 oracle alike; systems ordered [S18, S11] so the oracle check finishes first'
+- M = 2 also reduces S11's read window from 3 origins to 1 (one slot kept free for faults, per design) — the cell changes how S11 reads, not only residency
+- priced S11 $0.014/item and S18 $0.008/item (about 2-2.4x the calls of the default M)
+- fresh items 50-79; dev only; the predictor is computed from the skeleton and residency logs before any EM is opened (PLAN_V3 6b)
+- 'headroom frozen at generation: E1 1.92, E2 8.71; envelope assigned greedily in launch order'

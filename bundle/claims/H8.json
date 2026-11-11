@@ -1,0 +1,38 @@
+{
+  "id": "H8",
+  "statement": "Descent through shells matches flat routing with far fewer scores",
+  "verdict": "supported",
+  "results": [
+    {
+      "key": "descent_beam4_vs_flat_recall_at_M",
+      "level": "agent",
+      "value": -0.40160642570281124,
+      "ci95": [
+        -1.2048192771084338,
+        0.0
+      ],
+      "n": 249,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100600-20261108022819-09a5a49-8644",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100601-20261108024710-c1c7f1c-4aa9",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100602-20261108024713-1bae79e-276b",
+        "A-S12+S14-mtlbmhqa-T4-h3-32k-cross-test-s100603-20261108024716-fe3492b-9eba",
+        "A-embed-mtlbmhqa-T4-h3-32k-cross-test-s100400-20261108002205-1549ff2-f36e",
+        "A-sllm-mtlbmhqa-T4-h3-32k-cross-test-s100500-20261108002212-c7df1a1-1370",
+        "A-embed-mtlbmhqa-T4-h3-32k-cross-test-s100401-20261108002207-c5aeb83-51bf",
+        "A-sllm-mtlbmhqa-T4-h3-32k-cross-test-s100501-20261108002215-bb73e0a-56b5",
+        "A-embed-mtlbmhqa-T4-h3-32k-cross-test-s100402-20261108002210-3e70290-e7ea",
+        "A-sllm-mtlbmhqa-T4-h3-32k-cross-test-s100502-20261108002217-5c1e4a2-b3d8"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=descent_beam4_vs_flat_recall_at_M",
+      "test": "paired bootstrap 95% CI (10,000 resamples); non-inferiority: CI lower bound only"
+    }
+  ],
+  "figures": [],
+  "deviations": [],
+  "notes": "Both arms are at floor (recall near zero), so the verdict is non-inferiority at floor and says nothing about routing quality; the number of scores is not compared."
+}

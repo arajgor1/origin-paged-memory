@@ -1,0 +1,10 @@
+{
+  "script": "code/interim_figures.py",
+  "inputs": [
+    {
+      "path": "tables/v3_learning_curve_dev.csv",
+      "sha256": "78124629246f88e03cd81cd751d3874623ed69318c397161e264be1cbaae5a58"
+    }
+  ],
+  "created_at": "2026-11-08T08:30:29Z"
+}

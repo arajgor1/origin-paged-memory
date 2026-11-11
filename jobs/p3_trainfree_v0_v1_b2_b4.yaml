@@ -1,0 +1,57 @@
+# Job spec for `python -m opa.launch run jobs/p3_trainfree_v0_v1_b2_b4.yaml`. P3.3 training-free variants (protocol 5.3): V0, V1, B2, B4 on the
+# synthetic Track B archive (64 origins of ~512 tokens, 8 threads; windows of 6 co-loaded origins for tasks 1-5, 8 for the probe windows), base
+# Qwen3-4B-Instruct-2507 in bf16, nothing trained. DEV SMOKE: split dev, pilot evaluation seeds 900.., n = 16 items per task per variant.
+#   V0 M5 only (OAA off) | V1 M5 + fixed-lambda (2.0) hyperbolic penalty on the training-free tree layout (OAA structural term only)
+#   B2 APE-style shared prefix, no origin signal | B4 Graph-KV-style mask (an origin sees only itself and its graph parent; the question sees all;
+#   M5 shared frames, not Graph-KV's after-parent positions - disclosed in the prereg).
+# Tasks: 1 passkey, 2 archival order (A/B; the two origins are in different threads), 3 source attribution, 4 thread confusion (A/B, working origin =
+# the origin adjacent to the target fact; the thread cue exists only for V1 - disclosed), 5 continuation perplexity. Measures per layer and head
+# (probe_<variant>.json): own-origin mass, own-thread mass, ghost ratio, router entropy, and a linear probe of the origin id from head outputs
+# (layers first / middle / last) with its majority baseline and n_classes_seen. Outputs: items/<variant>_<task>.json (raw per-item outputs and input
+# hashes), inputs/<task>.json, metrics.json. Intention to treat: a failed item is scored wrong and counted (n_failed); if EVERY item of a
+# (variant, task) fails the run stops as an engineering stop (recorded as failed, nothing scored).
+#
+# THE TEST-SPLIT RUN (not this spec; created only after the prereg-v2 tag): same entrypoint with split: test, seed0: 100000 and args.prereg_tag =
+# {tag: prereg-v2, commit: <sha>} (the entrypoint refuses split=test otherwise), PG-19 test books, n = 80 per task per variant (400 items per variant,
+# as closed in the plan costs): 4 variants x 5 tasks x 80 = 1,600 forward passes x 2.1 s = 3,360 s; probe windows 4 x 16 x 4 s = 256 s; load and
+# start-up 554 s: 4,170 s x $0.00034544/s = about $1.44.
+name: p3-trainfree-v0-v1-b2-b4-devsmoke
+envelope: E3
+track: B
+hypotheses: [H4]
+system: trainfree
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.trainfree:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  split: dev
+  seed0: 900                  # pilot evaluation range 900-999
+  n: 16                       # items per task per variant
+  C: 6
+  probe_C: 8
+  n_probe_windows: 12         # 9 train + 3 test windows for the linear probe
+  headers: true
+  variants: [V0, V1, B2, B4]
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # L4 (24 GB), bf16 weights 8.0 GB. The longest pass is a probe window (8 origins, ~4.2K tokens): dense [1, 32, T, T] masks ~1.1 GB per layer in bf16,
+  # the V1 bias in fp32 1.1-2 GB; no gradients, so well inside the 21 GiB the training preflight used for the same window.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000222 + 0.0000524 + 0.00007104 = 0.00034544 /s (= $1.24/h)
+# ESTIMATE. The measured V3 monitoring evaluation (171 s) was 80 forward passes plus 3 probe windows, i.e. about 2.1 s per pass; applied here:
+# 4 variants x 5 tasks x 16 items = 320 passes x 2.1 s = 672 s. Probe windows (48 = 4 variants x 12, each a 4.2K-token pass with the per-layer mass
+# bookkeeping and the head-output copies) are GUESSED at 4 s each = 192 s. Plus 314 s model load and 240 s container start-up. Total 1,418 s.
+estimate_formula: "(240 s start-up + 314 s load + 320 passes x 2.1 s (measured: the 171 s V3 evaluation = 80 passes + 3 probe windows) + 48 probe windows x 4 s (guessed)) = 1418 s x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 $/s) = $0.49"
+estimate_usd: 0.49
+max_usd: 1.5                                # about 3x; launcher timeout = floor(1.5 / 0.00034544) = 4,342 s (checker: probe cost is a guess)
+max_api_usd: 0

@@ -1,0 +1,67 @@
+{
+ "id": "G1",
+ "passed": false,
+ "decided_at": "2026-11-07T18:30:16Z",
+ "criteria": [
+  {
+   "name": "H1 S11_vs_S2_lbmhqa_late_32k_primary, pilot point estimate (LB-MHQA dev late h=2 32K, n=50)",
+   "threshold": ">= 5.0 EM points (rules.yaml H1; CI/Holm not applied at pilot n, draft Section 4)",
+   "observed": {
+    "value": 10.0,
+    "ci": [
+     -6.0,
+     26.0
+    ],
+    "n10": 12,
+    "n01": 7,
+    "em_S11": 0.76,
+    "em_S2": 0.66
+   },
+   "met": true
+  },
+  {
+   "name": "H1 S11_vs_S4_lbmhqa_late_32k_primary, pilot point estimate",
+   "threshold": ">= 3.0 EM points",
+   "observed": {
+    "value": 62.0,
+    "em_S11": 0.76,
+    "em_S4": 0.14
+   },
+   "met": true
+  },
+  {
+   "name": "H3 R2_predicted_vs_observed_success (S11, LB-MHQA dev h=2 32K, late+forward+mixed pooled, n=150, identity-line R2 over 10 equal-count bins)",
+   "threshold": ">= 0.5 (rules.yaml H3)",
+   "observed": {
+    "value": -7.38,
+    "mean_predicted": 0.993,
+    "mean_observed": 0.713,
+    "items_with_predicted_1.0": 149
+   },
+   "met": false
+  },
+  {
+   "name": "H3 S11_vs_S8_late_bound, pilot point estimate",
+   "threshold": ">= 2.0 EM points",
+   "observed": {
+    "value": 2.0,
+    "n10": 1,
+    "n01": 0,
+    "em_S11": 0.76,
+    "em_S8": 0.74
+   },
+   "met": true
+  }
+ ],
+ "evidence": [
+  "runs/A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168",
+  "runs/A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a",
+  "runs/A-sllm-lbmhqa-late-h2-32k-a0-dev-s0-20261107140747-99677c4-97eb",
+  "runs/A-sllm-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107140749-99677c4-4dac",
+  "bundle/tables/pilot_dev/discordance.csv",
+  "bundle/tables/pilot_dev/h3_fit.csv",
+  "bundle/tables/pilot_dev/h3_bins.csv",
+  "state/decisions.md (2026-11-07: W3 gamma verification; G1 decision)"
+ ],
+ "notes": "G1 FAILED on H3's R2 criterion; H1 passes on point estimates. The measured coverage predictor gamma_eff^h_late is 1.0 for 149 of 150 S11 items: 74 items have no late-bound hop (prediction 1 by definition) and the lexical skeleton captures each fact's subject in its own origin (gamma_s 0.98-1.00). The measurement was verified on the real records (no bug). All 42 S11 misses had every fact origin paged in (failure codes F2 32, F7 8, F3 2): failures are reading and pinning, not coverage. A constant predictor gives identity-line R2 <= 0 for any outcome, so no revision of the functional form allowed by PLAN_V3 Section 8 item 5 (e.g. multiplying by a reader-reliability factor) can meet R2 >= 0.5 without weakening S11's skeletons, which would change the system under test; no such change was made. Consequence (operating manual Section 3, PLAN_V3 Section 6): skip P3-P5; H4-H9 and H11-H13 not_run_gate_failed; BOOST never requested; P2 runs H1, H2, H3 and H10 on the test split; P6 is completed. Dev split only; oracle S18 (0.78) not used in any criterion."
+}

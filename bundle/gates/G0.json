@@ -1,0 +1,87 @@
+{
+ "id": "G0",
+ "passed": true,
+ "decided_at": "2026-11-07T08:25:34Z",
+ "criteria": [
+  {
+   "name": "S18 oracle EM, LB-MHQA dev late h=3 32K, 50 items (attempt at the default h)",
+   "threshold": ">= 0.80 (60-80% -> h=2 fallback)",
+   "observed": 0.62,
+   "met": false
+  },
+  {
+   "name": "S18 oracle EM, LB-MHQA dev late h=2 32K, 50 items (PLAN_V3 s6 fallback re-check; stop only if < 0.60)",
+   "threshold": ">= 0.60 at h=2",
+   "observed": 0.62,
+   "met": true
+  },
+  {
+   "name": "S18 oracle EM, LB-MHQA dev late h=3 32K, same 50 items, re-check on rebuilt S-llm skeletons (sllm-v2; the attempt-1 skeletons were 68% empty)",
+   "threshold": ">= 0.80 -> primary h = 3; otherwise the h = 2 fallback stands (ruling 2026-11-07)",
+   "observed": 0.6,
+   "met": false
+  },
+  {
+   "name": "S1 three repeats agree within 2 EM points (attempt 1)",
+   "threshold": "max-min <= 2 points",
+   "observed": {
+    "em": [
+     0.44,
+     0.42,
+     0.4
+    ],
+    "spread_points": 4,
+    "differing_items": 6,
+    "harness_differences": 2
+   },
+   "met": false
+  },
+  {
+   "name": "S1 three repeats agree within 2 EM points (attempt 2, after the answer-parsing fix; final by pre-commitment)",
+   "threshold": "max-min <= 2 points; owner ruling DEV-G0-noise: passes if every difference is a near-tie flip",
+   "observed": {
+    "em": [
+     0.38,
+     0.4,
+     0.44
+    ],
+    "spread_points": 6,
+    "differing_items": 10,
+    "near_tie_flips": 10,
+    "harness_differences": 0,
+    "per_item_flip_rate": 0.2
+   },
+   "met": true
+  },
+  {
+   "name": "Track B unit tests U1-U5 on Qwen3-4B (U1 under DEV-U1)",
+   "threshold": "all pass",
+   "observed": {
+    "U1": true,
+    "U2": true,
+    "U3": true,
+    "U4": true,
+    "U5": true
+   },
+   "met": true
+  }
+ ],
+ "evidence": [
+  "runs/A-S18-lbmhqa-late-h3-32k-a0-dev-s0-20261107061709-b4ae7fc-e3a6",
+  "runs/A-S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107075922-8923eaa-bc40",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107051318-0bf87e7-be52",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107051320-0bf87e7-9147",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107051322-0bf87e7-2e97",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107061703-b4ae7fc-02ca",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107061705-b4ae7fc-9930",
+  "runs/A-S1-lbmhqa-late-h3-32k-a0-dev-s0-20261107061707-b4ae7fc-d01c",
+  "runs/B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d",
+  "runs/B-units-none-u1-u5-dev-s0-20261107040314-7185874-b480",
+  "runs/A-sllm-lbmhqa+mtlbmhqa-late-h3-32k-a0+T8-h3-32k-cross-dev-s0-20261107045653-2daf910-d362",
+  "runs/A-sllm-lbmhqa-late-h2-32k-a0-dev-s0-20261107064320-dfaaf15-cd89",
+  "state/decisions.md (DEV-U1, DEV-G0-noise, h=2 fallback)",
+  "runs/A-S18-lbmhqa-late-h3-32k-a0-dev-s0-20261107134435-4941a2c-7341",
+  "runs/A-sllm-lbmhqa-late-h3-32k-a0-dev-s0-20261107113922-f2e104d-7134"
+ ],
+ "notes": "G0 PASSED with h=2 as the primary h (PLAN_V3 s6 fallback: S18 62% at h=3 is in the 60-80% band; re-check at h=2 gives 62% >= 60%). S18 misses are genuine wrong values (mostly F2 paged-but-not-pinned), not formatting. S1 repeat criterion: attempt 1 failed (two differences were a harness parsing bug, fixed); attempt 2 (pre-committed final) has a 6-point spread from 10 near-tie flips and no harness differences, which the owner's ruling recorded before the results counts as passed with deviation DEV-G0-noise; measured per-item flip rate 20% at n=50 is reported next to every primary contrast. U1 passes under DEV-U1 (fp32 within 4 ulps of the max key; literal 1e-5 absolute is below one fp32 ulp at |k|=298). RE-CHECK (2026-11-07, P1 stage A): the G0 S-llm skeletons were found 68% empty (builder truncation); with the rebuilt sllm-v2 skeletons (9.9% empty) S18 at h=3 scores 0.60 (F1 0.75, evidence recall 0.67), below 0.80, so primary h = 2 stands. Both attempts are kept. S18 at h=2 is re-measured on rebuilt skeletons in the P1 pilot (p1-lb-late-h2)."
+}

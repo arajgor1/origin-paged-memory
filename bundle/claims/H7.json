@@ -1,0 +1,72 @@
+{
+  "id": "H7",
+  "statement": "Global coordinates fail at the predicted depths; re-anchored offsets do not",
+  "verdict": "supported",
+  "results": [
+    {
+      "key": "reanchored_error_growth_ratio_depth40_vs_depth1_bf16",
+      "level": "measurement",
+      "value": 0.9608147107362868,
+      "ci95": null,
+      "n": 0,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "n/a",
+      "primary": false,
+      "run_ids": [
+        "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da"
+      ],
+      "table_ref": "tables/interim_h7.csv#row=reanchored_error_growth_ratio_depth40_vs_depth1_bf16"
+    },
+    {
+      "key": "global_fail_depth_bf16",
+      "level": "measurement",
+      "value": 4.0,
+      "ci95": null,
+      "n": 0,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "n/a",
+      "primary": false,
+      "run_ids": [
+        "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da"
+      ],
+      "table_ref": "tables/interim_h7.csv#row=global_fail_depth_bf16"
+    },
+    {
+      "key": "global_fail_depth_fp16",
+      "level": "measurement",
+      "value": 7.0,
+      "ci95": null,
+      "n": 0,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "n/a",
+      "primary": false,
+      "run_ids": [
+        "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da"
+      ],
+      "table_ref": "tables/interim_h7.csv#row=global_fail_depth_fp16"
+    },
+    {
+      "key": "global_fail_depth_fp32",
+      "level": "measurement",
+      "value": 16.0,
+      "ci95": null,
+      "n": 0,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "n/a",
+      "primary": false,
+      "run_ids": [
+        "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da"
+      ],
+      "table_ref": "tables/interim_h7.csv#row=global_fail_depth_fp32"
+    }
+  ],
+  "figures": [],
+  "deviations": [
+    "DEV-U8"
+  ],
+  "notes": "Deterministic measurements on synthetic chains from the post-tag units run (split n/a); the re-anchored ratio shows same-branch precision only."
+}

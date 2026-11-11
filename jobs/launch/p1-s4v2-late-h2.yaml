@@ -1,0 +1,44 @@
+name: p1-s4v2-late-h2
+envelope: E2
+track: A
+hypotheses:
+- H1
+- H3
+system: S4
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 50
+  systems:
+  - S4
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa+mtlbmhqa-3cells-dev-s0-20261107041041-2b257da-a07c/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-lbmhqa-late-h2-32k-a0-dev-s0-20261107140747-99677c4-97eb/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '$0.066 start-up + 50 items x S4 v2 $0.013/item (W3 projection from
+  pilot tokens: 64 gist calls/item) = $0.72; max_usd = 2 x the estimate = $1.44 (container
+  rate $0.000345/s)'
+estimate_usd: 0.72
+max_usd: 1.44
+max_api_usd: 0
+notes:
+- 'S4 baseline-audit re-run (PLAN_V3 rev 3 Section 6b): S4 v2 = dev tuning iteration
+  1 on the SAME 50 pilot items; all other settings identical to p1-lb-late-h2'

@@ -1,0 +1,105 @@
+{
+  "script": "code/opa/analysis/distortion.py",
+  "inputs": [
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-cross/items.jsonl.gz",
+      "sha256": "bad167fa537fa66aa254364db0939c81289237ac423243a80e381fe7c8db26db"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-cross-conf/items.jsonl.gz",
+      "sha256": "456f1b075db8c57ba07df55ef5b6f8eb2f7e8e2f200511038778d9d2c765b31d"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "b8cd71e19b349e2f08f8d9c3dcce227e503db864057fc72e9e6a3b2feaaf4964"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-nocross-conf/items.jsonl.gz",
+      "sha256": "adeb0c489e0bbba5accb6cab8bc65a1910f160369096a02b677577d0fc495aa7"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross/items.jsonl.gz",
+      "sha256": "6522b45d95de5a1ccf6d23b2ab5478b5b174b70b43ef3a53168b29355b880973"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross-conf/items.jsonl.gz",
+      "sha256": "6d548b6d4a9ed697574b086622e54998d835ffd2e031f44ccf996602db3b24b0"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "943285cb690cc8a1a6ded75db5c50ae886adb5db5fccefc5a9cc7ca10529ba40"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-nocross-conf/items.jsonl.gz",
+      "sha256": "fc544b24b5c5c34035b9f9212d44dcb213bc47db41cf0d7a6d963f7aa87705f3"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz",
+      "sha256": "3689533a84c2488239a29c2aa1305cda1a95dc3e5a2217af52c9eeba69e04ef1"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross-conf/items.jsonl.gz",
+      "sha256": "50468e602db59c1dc8bdcccab2d153d63cafc50684f5a71b40955b2be0e9c956"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "bd23daa5d05db4ccd23332cb3098cbcdb0577bf117e90c21345563374fb70598"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-nocross-conf/items.jsonl.gz",
+      "sha256": "070730b7764d662e0d7353e97740f8aceaf653aa0023218d241b847ec37a7ed5"
+    }
+  ],
+  "created_at": "2026-11-07T05:01:33Z",
+  "table_sha256": "65390d5e82f66c19b593767a2267e9ba980f668cbb6a92819583b79f0c90ffc3",
+  "timing_dist_sec": {
+    "T16-h3-32k-cross_v2_gold_clampnone": 0.1053,
+    "T16-h3-32k-cross_v2_inferred_clampnone": 0.1882,
+    "T16-h3-32k-cross_v2_gold_clamp36": 0.1181,
+    "T16-h3-32k-cross_v2_inferred_clamp36": 0.1815,
+    "T16-h3-32k-cross-conf_v2_gold_clampnone": 0.129,
+    "T16-h3-32k-cross-conf_v2_inferred_clampnone": 0.1773,
+    "T16-h3-32k-cross-conf_v2_gold_clamp36": 0.113,
+    "T16-h3-32k-cross-conf_v2_inferred_clamp36": 0.2028,
+    "T16-h3-32k-nocross_v2_gold_clampnone": 0.104,
+    "T16-h3-32k-nocross_v2_inferred_clampnone": 0.1714,
+    "T16-h3-32k-nocross_v2_gold_clamp36": 0.1027,
+    "T16-h3-32k-nocross_v2_inferred_clamp36": 0.1714,
+    "T16-h3-32k-nocross-conf_v2_gold_clampnone": 0.1051,
+    "T16-h3-32k-nocross-conf_v2_inferred_clampnone": 0.1704,
+    "T16-h3-32k-nocross-conf_v2_gold_clamp36": 0.1029,
+    "T16-h3-32k-nocross-conf_v2_inferred_clamp36": 0.1683,
+    "T4-h3-32k-cross_v2_gold_clampnone": 0.2257,
+    "T4-h3-32k-cross_v2_inferred_clampnone": 0.2351,
+    "T4-h3-32k-cross_v2_gold_clamp36": 0.2221,
+    "T4-h3-32k-cross_v2_inferred_clamp36": 0.2145,
+    "T4-h3-32k-cross-conf_v2_gold_clampnone": 0.2239,
+    "T4-h3-32k-cross-conf_v2_inferred_clampnone": 0.2201,
+    "T4-h3-32k-cross-conf_v2_gold_clamp36": 0.2232,
+    "T4-h3-32k-cross-conf_v2_inferred_clamp36": 0.2026,
+    "T4-h3-32k-nocross_v2_gold_clampnone": 0.2253,
+    "T4-h3-32k-nocross_v2_inferred_clampnone": 0.2252,
+    "T4-h3-32k-nocross_v2_gold_clamp36": 0.2225,
+    "T4-h3-32k-nocross_v2_inferred_clamp36": 0.2125,
+    "T4-h3-32k-nocross-conf_v2_gold_clampnone": 0.2251,
+    "T4-h3-32k-nocross-conf_v2_inferred_clampnone": 0.219,
+    "T4-h3-32k-nocross-conf_v2_gold_clamp36": 0.2232,
+    "T4-h3-32k-nocross-conf_v2_inferred_clamp36": 0.2092,
+    "T8-h3-32k-cross_v2_gold_clampnone": 0.157,
+    "T8-h3-32k-cross_v2_inferred_clampnone": 0.1915,
+    "T8-h3-32k-cross_v2_gold_clamp36": 0.1583,
+    "T8-h3-32k-cross_v2_inferred_clamp36": 0.1923,
+    "T8-h3-32k-cross-conf_v2_gold_clampnone": 0.1678,
+    "T8-h3-32k-cross-conf_v2_inferred_clampnone": 0.2112,
+    "T8-h3-32k-cross-conf_v2_gold_clamp36": 0.1586,
+    "T8-h3-32k-cross-conf_v2_inferred_clamp36": 0.1954,
+    "T8-h3-32k-nocross_v2_gold_clampnone": 0.159,
+    "T8-h3-32k-nocross_v2_inferred_clampnone": 0.2072,
+    "T8-h3-32k-nocross_v2_gold_clamp36": 0.157,
+    "T8-h3-32k-nocross_v2_inferred_clamp36": 0.1977,
+    "T8-h3-32k-nocross-conf_v2_gold_clampnone": 0.1592,
+    "T8-h3-32k-nocross-conf_v2_inferred_clampnone": 0.1987,
+    "T8-h3-32k-nocross-conf_v2_gold_clamp36": 0.157,
+    "T8-h3-32k-nocross-conf_v2_inferred_clamp36": 0.188
+  }
+}

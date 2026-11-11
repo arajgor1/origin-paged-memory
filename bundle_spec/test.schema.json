@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OPA unit-test record (bundle/tests/U<n>.json)",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "passed",
+    "details",
+    "run_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^U[1-8]$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "details": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "U7",
+  "name": "Factorization on real logits: attention = router mass x local softmax (Theorem 6)",
+  "passed": true,
+  "details": "27 (layer, head, query) cases on the model's own forward pass with live OAA (A ~ N(0, 0.5^2), lambda 2, g 1), layers [0, 18, 35]: max |a - pi * alpha| = 7.77e-16, max |a @ v - SDPA output| = 6.61e-06, bias constant within an origin to 0.00e+00 (tolerance 1e-05, fp32).",
+  "run_id": "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da",
+  "criterion": "max abs error <= 1e-5 in fp32",
+  "metrics": {
+    "factorization_max_abs_err": 7.771561172376096e-16,
+    "sdpa_output_max_abs_err": 6.607026609151134e-06,
+    "bias_constant_within_origin_max_dev": 0.0,
+    "cases": 27,
+    "layers": [
+      0,
+      18,
+      35
+    ],
+    "heads_per_layer": 3,
+    "tolerance": 1e-05,
+    "live_settings": {
+      "A_std": 0.5,
+      "lambda": 2.0,
+      "g": 1.0
+    },
+    "T": 528,
+    "origins_in_window": 5
+  },
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false
+  }
+}

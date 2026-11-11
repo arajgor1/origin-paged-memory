@@ -1,0 +1,42 @@
+{
+  "id": "U5",
+  "name": "Torch port of the Poincare functions and LCA-frame distances matches protocol_snippets_v2.py",
+  "passed": true,
+  "details": "opa.geometry.u5_report(): primitives fp32 max err 4.77e-07 (<= 1e-6), LCA distances float64 max err 1.12e-13 (<= 1e-10), fp32 LCA distances: port err 3.34e-05 vs reference's own 3.52e-05 (port <= 2x reference + 1e-7).",
+  "run_id": "B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d",
+  "criterion": "see opa.geometry.u5_report docstring (a, b, c)",
+  "metrics": {
+    "a_primitives_fp32_max_abs_err": 4.76837158203125e-07,
+    "a_pass": true,
+    "b_lca_distance_float64_max_abs_err": 1.1191048088221578e-13,
+    "b_pass": true,
+    "c_port_fp32_err_vs_truth": 3.3430865382655384e-05,
+    "c_reference_fp32_err_vs_truth": 3.52382370447657e-05,
+    "c_pass": true,
+    "reported_port_vs_reference_fp32_max_abs_gap": 2.5318867610479856e-05,
+    "reported_port_vs_reference_fp32_gap_within_d_4.61": 3.849348487960924e-06,
+    "tree": {
+      "threads": 4,
+      "depth": 6,
+      "m": 8,
+      "seed": 0,
+      "pairs": 552
+    },
+    "passed": true
+  },
+  "seconds": 1.026,
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false,
+    "gpu_mem_after_load_gib": 15.08
+  }
+}

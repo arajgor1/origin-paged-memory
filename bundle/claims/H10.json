@@ -1,0 +1,30 @@
+{
+  "id": "H10",
+  "statement": "Pinning prevents thrashing when a step needs more origins than slots",
+  "verdict": "supported",
+  "results": [
+    {
+      "key": "pinned_vs_unpinned_repeat_pagein_reduction",
+      "level": "agent",
+      "value": 2.5430232558139534,
+      "ci95": [
+        2.2686046511627906,
+        2.8313953488372094
+      ],
+      "n": 860,
+      "p_raw": 2.9359616849780564e-56,
+      "p_holm": 1.4679808424890283e-55,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "A-thrash-nopin-thrash-r3+r4+r6-test-s101000-20261108002113-05bc500-c9b7",
+        "A-thrash-pin-thrash-r3+r4+r6-test-s100900-20261108002103-84de638-d081"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=pinned_vs_unpinned_repeat_pagein_reduction",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + Wilcoxon signed-rank"
+    }
+  ],
+  "figures": [],
+  "deviations": [],
+  "notes": "Thrash runs with the worst observed value imputed for failures (intention to treat)."
+}

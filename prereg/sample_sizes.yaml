@@ -1,0 +1,58 @@
+# prereg/sample_sizes.yaml — plan version 3 (PLAN_V3 revisions 1-5), rules.yaml version 2. Frozen at the prereg-v2 tag.
+# Computed from the P1 dev pilot (bundle/tables/pilot_dev/sample_sizes_proposed.csv, discordance.csv, sd_paired.csv)
+# (S11_vs_S4 rate from bundle/gates/G1.json: the S4 v2 re-run A-S4-...-1d7070d-f13c; discordance.csv still shows v1)
+# with opa.stats.n_mcnemar / n_tost and the paired normal formula (Wilcoxon ARE 0.955), alpha 0.05 two-sided,
+# power 0.80, and the owner's package decisions (PLAN_V3 revision 5, budget/approvals.yaml, budget/requests/E2.md).
+# min_n is what the verifier compares with the achieved n; the run sizes in jobs/p2/ are >= these.
+# Keys not funded in the approved package keep their computed requirement and are reported inconclusive
+# ("not funded"; prereg-v2.DRAFT.md Section 2b).
+
+pilot_discordant_rates:          # (n10 + n01) / n on the dev pilot
+  S11_vs_S2_lbmhqa_late_32k_primary: 0.38                        # n10 12, n01 7, n 50
+  S11_vs_S4_lbmhqa_late_32k_primary: 0.50                        # S4 v2 re-audit: n10 24, n01 1, n 50 (v1 gave 0.74, harness defect)
+  S11_vs_S8_late_bound: 0.02
+  A2_vs_A1_agent_mtlbmhqa_32k_primary_cross: 0.08
+  A2_vs_A3_agent_equivalence: 0.02
+  descent_beam4_vs_flat_recall_at_M: 0.0
+  V3_vs_B1_source_attribution: 0.78125                           # 39-step mini-LoRA check, n 32
+  V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k: 0.30         # default (no pilot outcome)
+  V3_paged_vs_B1_full_accuracy_lbmhqa_32k: 0.30                  # default (no pilot outcome)
+  A2_vs_A1_model_thread_confusion_task: 0.30                     # default (no pilot outcome)
+  copy_reuse_vs_full_recompute_accuracy_lbmhqa_32k: 0.30         # default (no pilot outcome)
+
+pilot_sd_of_paired_differences:  # paired normal formula, Wilcoxon ARE 0.955 [beyond protocol]
+  D4_vs_D2_retention_t50: 9.071871393197362
+  pinned_vs_unpinned_repeat_pagein_reduction: 5.114421117857477
+
+effect_sizes:                    # design effect in points unless stated (verdict thresholds stay as rules.yaml says)
+  S11_vs_S2_lbmhqa_late_32k_primary: 7.0                         # owner: sized for 7 points (rule threshold stays 5): power 0.80 at 7, 0.52 at 5
+  S11_vs_S4_lbmhqa_late_32k_primary: 3.0                         # rule threshold; n set by the owner's n_S4 = 391 (see min_n)
+  S11_vs_S8_late_bound: 2.0
+  A2_vs_A1_agent_mtlbmhqa_32k_primary_cross: 5.0                 # owner: delta 5 (the half-budget cell did not qualify; default M kept)
+  descent_beam4_vs_flat_recall_at_M: 3.0                         # NI margin; runs on the H5 items
+  D4_vs_D2_retention_t50: 10.0                                   # not funded
+  pinned_vs_unpinned_repeat_pagein_reduction: 0.5                # page-ins per item
+  V3_vs_B1_source_attribution: 5.0
+  A2_vs_A1_model_thread_confusion_task: 5.0
+  V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k: 5.0
+  V3_paged_vs_B1_full_accuracy_lbmhqa_32k: 3.0                   # NI margin, true difference 0 (PLAN_V3 rev 4)
+  copy_reuse_vs_full_recompute_accuracy_lbmhqa_32k: 2.0          # NI margin, true difference 0; not funded
+
+min_n:
+  S11_vs_S2_lbmhqa_late_32k_primary: 607                         # n_mcnemar(0.38, 0.07); BOOST use (b)
+  S11_vs_S4_lbmhqa_late_32k_primary: 391                         # owner option n_S4 = 391 (first 391 H1 items); n_mcnemar(0.50, 0.03) would be 4,359; pilot effect +46 points (P(pass) 1.00), power 0.13 at exactly 3 points (disclosed)
+  D4_vs_D2_retention_t50: 200                                    # max(200, paired formula 7); NOT FUNDED (deferred) -> inconclusive
+  S11_vs_S8_late_bound: 391                                      # n_mcnemar(0.02, 0.02); runs inside the H1 runs at n 607
+  V3_vs_B1_source_attribution: 2451                              # n_mcnemar(0.78125, 0.05)
+  A2_vs_A1_agent_mtlbmhqa_32k_primary_cross: 249                 # n_mcnemar(0.08, 0.05)
+  A2_vs_A1_model_thread_confusion_task: 940                      # n_mcnemar(0.30, 0.05)
+  R5_vs_R1_accuracy: 400                                         # protocol 5.2 data size
+  descent_beam4_vs_flat_recall_at_M: 249                         # = H5 n (pilot p_d 0, so n_mcnemar is undefined; CPU on the same items)
+  pinned_vs_unpinned_repeat_pagein_reduction: 860                # paired normal, sd 5.114, effect 0.5, ARE 0.955
+  V3_paged_vs_B1_full_accuracy_lbmhqa_32k: 2614                  # n_mcnemar(0.30, 0.03) (NI approximation); funded in E4 (rev 5)
+  V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k: 940          # n_mcnemar(0.30, 0.05)
+  copy_reuse_vs_full_recompute_accuracy_lbmhqa_32k: 5885         # n_mcnemar(0.30, 0.02) (NI approximation); NOT FUNDED -> inconclusive
+
+equivalence:
+  A2_vs_A3_margin_points: 3.0
+  A2_vs_A3_agent_min_n: 191                                      # n_tost(0.02, 0.03)

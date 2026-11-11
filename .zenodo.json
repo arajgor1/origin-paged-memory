@@ -1,0 +1,19 @@
+{
+  "upload_type": "software",
+  "title": "Origin-Paged Memory: code, pre-registration and verified results (v1.0.0)",
+  "creators": [
+    {
+      "name": "Rajgor, Aaditya",
+      "affiliation": "Independent Researcher",
+      "orcid": "0009-0006-3009-5559"
+    }
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "keywords": [
+    "long-context language models",
+    "agent memory",
+    "virtual memory",
+    "pre-registration"
+  ]
+}

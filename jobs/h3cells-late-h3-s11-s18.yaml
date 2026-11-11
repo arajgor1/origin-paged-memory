@@ -1,0 +1,44 @@
+name: h3cells-late-h3-s11-s18
+envelope: E2
+track: A
+hypotheses:
+- H3
+system: S11+S18
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+    n_items: 30
+    offset: 50
+  systems:
+  - S11
+  - S18
+  embedder: precomputed:gs://{bucket}/opa/runs/H3CELLS_VEC_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/H3CELLS_SK3_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: $0.066 start-up + 30 items x (S11 $0.0064 + S18 $0.0039) per item = $0.375 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $0.750
+estimate_usd: 0.38
+max_usd: 0.75
+max_api_usd: 0
+notes:
+- 'cell (b): default M for both systems'
+- fresh items 50-79; dev only; the predictor is computed from the skeleton and residency logs before any EM is opened (PLAN_V3 6b)
+- 'headroom frozen at generation: E1 1.92, E2 8.71; envelope assigned greedily in launch order'

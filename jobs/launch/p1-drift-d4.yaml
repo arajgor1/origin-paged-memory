@@ -1,0 +1,37 @@
+name: p1-drift-d4
+envelope: E2
+track: A2
+hypotheses:
+- H2
+system: D4
+dataset: drift
+cell: s50
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a2:run_condition
+args:
+  items_uri: gs://{bucket}/opa/data/drift/dev/v2/s50/items.jsonl.gz
+  n_items: 30
+  condition: D4
+  model:
+    kind: open_local
+    name: qwen
+  workers: 30
+  opts: {}
+models:
+  subject: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+max_api_usd: 0
+estimate_formula: '189 s start-up + 30 sessions x 29.9 s (D4: 53 calls, 64485 in tok / 2570 + 1938 out tok / 400 tok/s at 30 concurrent sessions, estimate_session typical) = 1087 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.376'
+estimate_usd: 0.38
+max_usd: 0.76
+notes:
+- 'NOT MEASURED: no drift session has run; tokens from estimate_session (typical), rates derived from measured Track A runs'
+- all 30 sessions run concurrently (workers 30); decode throughput at 30 streams (400 tok/s) is an ASSUMPTION extrapolated from 215 tok/s at 12 streams
+- 'worst case per estimate_session is about 2.4x the typical output tokens for D2: ceiling 2.5x for D2'
+- 'headroom frozen at generation: E1 2.33, E2 22.00; stage A and Track B spend are in the ledger; envelope assigned greedily in launch order'

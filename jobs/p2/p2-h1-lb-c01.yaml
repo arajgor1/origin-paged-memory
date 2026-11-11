@@ -1,0 +1,46 @@
+name: p2-h1-lb-c01
+envelope: BOOST
+track: A
+hypotheses:
+- H1
+- H3
+system: S11+S2+S8
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: test
+seed: 100200
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/test/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 87
+    offset: 0
+  systems:
+  - S11
+  - S2
+  - S8
+  embedder: precomputed:gs://{bucket}/opa/runs/P2_EMBED_LB_C01_RUN_ID/embeddings.npz
+  workers: 16
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/P2_SK_LB_C01_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 87 items x (S11 14.4 + S2 0.9 + S8 13.8 s at 16 workers) x $0.000345/s + $0.066 start-up = $0.941 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $1.881
+estimate_usd: 0.95
+max_usd: 1.89
+max_api_usd: 0
+notes:
+- items 0-86; S11 - S2 (H1) and S11 - S8 (H3 leaf) on the same items
+- 'package line: H1 (+ H3 S11 - S8 leaf) [delta 7, n=607]'
+- 'BOOST-funded container (PLAN_V3 s9 use (b): more test items for the H1, H5 and H12 primary cells)'

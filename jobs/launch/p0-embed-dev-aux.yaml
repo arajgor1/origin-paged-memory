@@ -1,0 +1,56 @@
+name: p0-embed-dev-aux
+envelope: E0
+track: A
+hypotheses:
+- P0-unit-costs
+system: embed
+dataset: lbmhqa+mtlbmhqa
+cell: 13cells
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:embed_items
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/forward-h3-32k-a0/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/mixed-h3-32k-a0/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-nocross/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-nocross/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-cross/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-nocross/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross-conf/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-nocross-conf/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross-conf/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-nocross-conf/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-cross-conf/items.jsonl.gz
+    n_items: 10
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-nocross-conf/items.jsonl.gz
+    n_items: 10
+  embedder: harrier
+  B: 512
+  batch: 16
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 12
+estimate_formula: 120 s start-up + 130 items (forward-h3-32k-a0 x 10, mixed-h3-32k-a0 x 10, T4-h3-32k-cross x 10, T4-h3-32k-nocross x 10, T8-h3-32k-nocross x 10, T16-h3-32k-cross x 10, T16-h3-32k-nocross x 10, T4-h3-32k-cross-conf x 10, T4-h3-32k-nocross-conf x 10, T8-h3-32k-cross-conf x 10, T8-h3-32k-nocross-conf x 10, T16-h3-32k-cross-conf x 10, T16-h3-32k-nocross-conf x 10) x 37400 tokens / 8000 tok/s (harrier-0.6b fp32 on L4, assumed) = 728 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 24 GiB(limit) x 0.00000222 = 0.000328 $/s) = $0.238
+estimate_usd: 0.24
+max_usd: 0.48
+max_api_usd: 0
+notes:
+- one embeddings.npz holds every cell of this job (keys item_id/origin_id)
+- 'L4 vs T4 per item: see the printed comparison; L4 is cheaper per item (T4 is ~2.7x slower for 0.74x the price)'

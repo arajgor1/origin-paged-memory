@@ -1,0 +1,45 @@
+name: p2-h1-s4-c02
+envelope: BOOST
+track: A
+hypotheses:
+- H1
+system: S4
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: test
+seed: 100301
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/test/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 87
+    offset: 87
+  systems:
+  - S4
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa-late-h2-32k-a0-test-s100001-20261108002150-4d2005c-89b4/embeddings.npz
+  workers: 16
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 87 items x S4 34.1 s (workers-16) x $0.000345/s + $0.066 start-up
+  = $1.090 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit)
+  x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $2.179
+estimate_usd: 1.09
+max_usd: 2.18
+max_api_usd: 0
+notes:
+- items 87-173 of the first n_S4=391; S4 at workers 16
+- 'package line: H1 (+ H3 S11 - S8 leaf) [delta 7, n=607]'
+- 'BOOST-funded container (PLAN_V3 s9 use (b): more test items for the H1, H5 and
+  H12 primary cells)'

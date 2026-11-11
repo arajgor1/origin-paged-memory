@@ -1,0 +1,45 @@
+name: h5cell-t8-arms
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: S12+S14+S15+S16
+dataset: mtlbmhqa
+cell: T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+    offset: 5
+  systems:
+  - S12
+  - S14
+  - S15
+  - S16
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-mtlbmhqa-T8-h3-32k-cross-dev-s0-20261107192201-2264b1f-44dc/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-mtlbmhqa-T8-h3-32k-cross-dev-s0-20261107192203-2264b1f-e7fb/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: $0.066 start-up + (S12 1090.6 s + S14 1373.9 s + S15 1082.7 s + S16 1331.5 s per 50 items, measured on MT T4 cross) = 4879 s x $0.000345/s = $1.751 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $3.503
+estimate_usd: 1.76
+max_usd: 3.51
+max_api_usd: 0
+notes:
+- 'CONDITIONAL: launch only if S18 >= 0.60 on T8 (h5cell-t8-oracle); H5 arms A2/A1/A3/A0 with the T4 arms job''s opts (lambda 2.0)'
+- 'headroom frozen at generation: E2 6.85; envelope E2 (E1 is exhausted)'

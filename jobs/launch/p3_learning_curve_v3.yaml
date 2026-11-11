@@ -1,0 +1,43 @@
+# Job spec for `python -m opa.launch run jobs/p3_learning_curve_v3.yaml`. PLAN_V3 revision 2, Section 6a Step 1: V3 learning-curve check.
+# V3 trained for EXACTLY 400 optimizer steps with the pilot configuration (headers on, lr 1e-4 / 1e-3, mix 50/30/20, LoRA r16, A init 1e-3,
+# max_train_seq_len 4096, gradient checkpointing, grad_accum 4), evaluated at steps 50, 100, 200, 400 (and 0) on the fixed monitoring set
+# (dev seeds 2000-2063: 64 attribution items, 32 passkey items, 3 probe windows; reserved ranges: pilot eval 900-999, monitoring 2000-2063,
+# fresh G2 set 3000+). Saves the step-400 checkpoint (LoRA + OAA + optimizer state) to gs://<bucket>/opa/models/<run_id>/step400/checkpoint.pt.
+name: p3-learning-curve-v3
+envelope: E3
+track: B
+hypotheses: [H4, G2]
+system: V3
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.train:main
+args:
+  arm: V3
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  headers: true
+  max_opt_steps: 400
+  eval_at_steps: [50, 100, 200, 400]
+  save_checkpoint_at: [400]
+  eval_every: 0
+  time_budget_s: 18000          # only a safety stop (the loop needs about 9,800 s); if it fires a flagged checkpoint is still written
+  monitor: {attrib: 64, passkey: 32, probe: 3}
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # L4 (24 GB), bf16 weights 8.0 GB; same memory plan and preflight as the pilot (peak ~14-18 GB). The step-400 checkpoint (LoRA 11.7 M +
+  # OAA 25 M fp32 params + Adam state = about 0.45 GB) is built in host memory before the upload.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000222 + 0.0000524 + 0.00007104 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "(240 s start-up + 314 s model load/preflight + 400 steps x 21 s (measured in the V3 pilot) + 5 monitoring evals (steps 0, 50, 100, 200, 400) x 64 items x 5.34 s (measured per-item cost of the pilot's full evaluation, applied to the 64-item monitoring set) + 60 s checkpoint/adapter save) = 240 + 314 + 8400 + 1709 + 60 = 10723 s x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 $/s) = $3.70"
+estimate_usd: 3.7
+max_usd: 7.4                                # 2x; launcher timeout = floor(7.4 / 0.00034544) = 21,421 s
+max_api_usd: 0

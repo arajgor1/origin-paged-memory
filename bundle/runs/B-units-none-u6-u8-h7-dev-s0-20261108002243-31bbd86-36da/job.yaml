@@ -1,0 +1,30 @@
+name: p3-units-u6-u8-h7
+envelope: E3
+track: B
+hypotheses:
+- H7
+- G0
+system: units
+dataset: none
+cell: u6-u8-h7
+split: dev
+seed: 0
+entrypoint: opa.trackb.units_h7:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  chains: 512
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '170 s (64 s from the measured U1-U5 job: container + fp32 load
+  + tests; +35 s U7 and the 10 forward passes of U8 (about 2 s each in fp32 at 528
+  tokens, guessed); +60 s H7 sweeps, 512 chains, guessed at 2x the laptop time of
+  30 s) x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222
+  = 0.00034544 $/s) = $0.059'
+estimate_usd: 0.06
+max_usd: 0.3
+max_api_usd: 0

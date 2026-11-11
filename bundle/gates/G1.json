@@ -1,0 +1,71 @@
+{
+ "id": "G1",
+ "passed": true,
+ "decided_at": "2026-11-07T20:02:47Z",
+ "criteria": [
+  {
+   "name": "S4 baseline audit, part 1: harness failures on S4's pilot cell (LB-MHQA dev late h=2 32K, 50 items), fixed S4 v2",
+   "threshold": "<= 5% of pilot items (PLAN_V3 revision 3 Section 6b)",
+   "observed": {
+    "s4_harness_failure_rate": 0.0,
+    "gist_harness_failure_rate": 0.0,
+    "n_gist_empty": 0,
+    "n_lookup_parse_errors": 0,
+    "run": "A-S4-lbmhqa-late-h2-32k-a0-dev-s0-20261107185331-1d7070d-f13c"
+   },
+   "met": true
+  },
+  {
+   "name": "S4 baseline audit, part 2: a separate checker model reads 10 S4 v2 transcripts (5 right, 5 wrong; random.Random(20261108))",
+   "threshold": "S4 builds its gist memory, looks pages up when the gists are not enough, and answers from what it read",
+   "observed": {
+    "verdict": "PASS",
+    "gists_nonempty": "3200/3200",
+    "fact_survives_in_gist": "70/100",
+    "pages_looked_up_per_item": "1-5",
+    "misses": "answer-step decoy choices and gists that dropped a fact; no harness defect"
+   },
+   "met": true
+  },
+  {
+   "name": "H1 S11_vs_S2_lbmhqa_late_32k_primary, pilot point estimate (LB-MHQA dev late h=2 32K, n=50)",
+   "threshold": ">= 5.0 EM points",
+   "observed": {
+    "value": 10.0,
+    "ci": [
+     -6.0,
+     26.0
+    ],
+    "n10": 12,
+    "n01": 7,
+    "em_S11": 0.76,
+    "em_S2": 0.66
+   },
+   "met": true
+  },
+  {
+   "name": "H1 S11_vs_S4_lbmhqa_late_32k_primary, pilot point estimate against the fixed S4 v2 on the same 50 items",
+   "threshold": ">= 3.0 EM points",
+   "observed": {
+    "value": 46.0,
+    "ci": [
+     32.0,
+     60.0
+    ],
+    "n10": 24,
+    "n01": 1,
+    "em_S11": 0.76,
+    "em_S4_v2": 0.3
+   },
+   "met": true
+  }
+ ],
+ "evidence": [
+  "bundle/gates/history/G1-original-2026-11-07T183016Z.json (original decision under the protocol's definition: failed on H3 R2 alone)",
+  "PLAN_V3.md revision 3 Section 6b (owner override; new G1 definition)",
+  "runs/A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168",
+  "runs/A-S4-lbmhqa-late-h2-32k-a0-dev-s0-20261107185331-1d7070d-f13c",
+  "state/decisions.md (2026-11-07: S4 baseline audit FAIL on v1 (gist truncation defect), S4 v2 = dev tuning iteration 1, re-run, transcript audit PASS)"
+ ],
+ "notes": "G1 PASSED under PLAN_V3 revision 3 Section 6b, an owner override of a failed resource gate made after the original decision. The original G1 (decided 18:30 UTC 2026-11-07 under the protocol's definition) failed on H3's R2 criterion alone and is kept unchanged in bundle/gates/history/. Under revision 3, H3 is not part of G1 and is tested on cells chosen by predictor variance alone. The first S4 audit failed: a 160-token gist cap emptied 23.5% of S4's gists, invisible to the failure codes; S4 was fixed within the protocol's tuning budget (S4 v2, tuning iteration 1: gist cap 300 with salvage, ReadAgent-faithful one-origin pages and parallel lookup of up to 5 pages, harness-failure flags) and its pilot cell re-run on the same 50 items: EM 0.30 (v1 0.14), harness failures 0%; the transcript audit passed. H1 then passes on the pilot's primary cell on point estimates. Disclosure text per Section 6b is in the prereg draft and goes into bundle/deviations.md. Dev split only; the oracle S18 is not used in any criterion."
+}

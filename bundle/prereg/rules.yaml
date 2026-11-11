@@ -1,0 +1,146 @@
+# prereg/rules.yaml — FROZEN verdict rules, derived from the kill criteria in docs/protocol_v2.md Section 1,
+# as rescoped by PLAN_V3.md (version 2 of this file, 2026-11-07: 32K primary cells, H11-H13 added;
+# PLAN_V3 revision 2, same day, pre-tag: H5 trend key renamed to A2_vs_A1_slope_per_thread_depth;
+# PLAN_V3 revision 4, same day, pre-tag: H11 non-inferiority margin 2 -> 3 EM points, set for cost and power
+# before any H11 accuracy had been measured;
+# PLAN_V3 revision 5, same day, pre-tag: H5 secondary key A2_vs_A1_pages_read_before_gold_hit added, reported only).
+# Owned by the human. The agent cannot edit this file. tools/verify_bundle.py re-evaluates these rules on
+# each claim's results and requires the declared verdict to match.
+#
+# Units: keys ending in a contrast ("A_vs_B") are differences in points on a 0-100 scale (EM, retention, recall),
+# unless the key says "fraction" or "mass" (0-1) or "ratio". Every non-measurement key needs a pre-registered
+# minimum n in prereg/sample_sizes.yaml (written by the agent from the pilot, frozen at the prereg-v2 tag).
+#
+# Leaf rule types:
+#   min_delta / min_value : supported if value >= threshold (or > if strict: true)
+#   max_value             : supported if value <= threshold
+#   within                : supported if lo <= value <= hi
+# Optional leaf conditions (all must hold for "supported"):
+#   require_ci_excludes_zero: true     ci95 lower bound > 0
+#   require_ci_lower_above: x          ci95 lower bound > x
+#   require_p_holm_below: x            Holm-adjusted p < x
+#   measurement: true                  no sample-size requirement (deterministic measurement or a fit statistic)
+# Combinators: all_of (refuted if any refuted, else inconclusive if any inconclusive) and
+#              any_of (supported if any supported, else inconclusive if any inconclusive, else refuted).
+# A leaf whose result is missing, or whose n is below the pre-registered minimum, is inconclusive.
+#
+# "_primary" in a key means the primary cell pinned in prereg/prereg-v2.md before the tag (PLAN_V3.md Section 6:
+# h = 3 by default, h = 2 if the G0 oracle check falls back). The context length of every primary cell is 32K tokens.
+# secondary_reported keys are reported in PAPER_INPUT.md but do not enter the verdict.
+
+version: 2
+alpha: 0.05
+holm_family: "results marked primary (at most one per hypothesis) that report p_raw"
+
+hypotheses:
+  H1:
+    statement: "Fold-left with skeleton and graph faults beats one-shot retrieval on late-binding multi-hop questions"
+    gate_dependency: G0
+    primary_key: S11_vs_S2_lbmhqa_late_32k_primary
+    secondary_reported: [S11_vs_S2_slope_per_h_late, S11_vs_S2_lbmhqa_late_16k, S11_vs_S2_lbmhqa_late_8k]
+    rule:
+      all_of:
+        - {type: min_delta, key: S11_vs_S2_lbmhqa_late_32k_primary, threshold: 5.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+        - {type: min_delta, key: S11_vs_S4_lbmhqa_late_32k_primary, threshold: 3.0}
+
+  H2:
+    statement: "Extractive session state keeps turn-1 constraints through 50 turns"
+    gate_dependency: G0
+    primary_key: D4_vs_D2_retention_t50
+    rule: {type: min_delta, key: D4_vs_D2_retention_t50, threshold: 10.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  H3:
+    statement: "Measured coverage predicts success as gamma_eff^h_late, and graph edges add recall beyond skeletons"
+    gate_dependency: G0
+    primary_key: S11_vs_S8_late_bound
+    rule:
+      all_of:
+        - {type: min_value, key: R2_predicted_vs_observed_success, threshold: 0.5, measurement: true}
+        - {type: min_delta, key: S11_vs_S8_late_bound, threshold: 2.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  H4:
+    statement: "Fresh frames alone alias origins; the origin vector repairs it and adds provenance"
+    gate_dependency: G1
+    primary_key: V3_vs_B1_source_attribution
+    rule:
+      all_of:
+        - {type: max_value, key: V0_own_origin_mass_ratio_to_uniform, threshold: 1.5, measurement: true}
+        - {type: min_value, key: V3_own_origin_mass_fraction, threshold: 0.90, measurement: true}
+        - {type: min_delta, key: V3_vs_B1_source_attribution, threshold: 0.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  H5:
+    statement: "Hyperbolic distance beats Euclidean distance on the same tree"
+    gate_dependency: G1
+    primary_key: A2_vs_A1_agent_mtlbmhqa_32k_primary_cross
+    secondary_reported: [A2_vs_A3_agent_equivalence, A2_vs_A3_model_equivalence, A2_vs_A1_slope_per_thread_depth, tree_distortion_euclidean_over_hyperbolic, A2_vs_A1_pages_read_before_gold_hit, A4_vs_A2_model]
+    rule:
+      any_of:
+        - {type: min_delta, key: A2_vs_A1_agent_mtlbmhqa_32k_primary_cross, threshold: 0.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+        - {type: min_delta, key: A2_vs_A1_model_thread_confusion_task, threshold: 0.0, require_ci_excludes_zero: true}
+
+  H6:
+    statement: "Red-dot prefix and graph-parent co-encoding close most of the contextual-dependence gap"
+    gate_dependency: G1
+    primary_key: R5_vs_R1_accuracy
+    rule:
+      all_of:
+        - {type: min_value, key: best_remedy_recovery_fraction, threshold: 0.90, measurement: true}
+        - {type: min_delta, key: R5_vs_R1_accuracy, threshold: 0.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  H7:
+    statement: "Global coordinates fail at the predicted depths; re-anchored offsets do not"
+    gate_dependency: G1
+    rule:
+      all_of:
+        - {type: max_value, key: reanchored_error_growth_ratio_depth40_vs_depth1_bf16, threshold: 2.0, measurement: true}
+        - {type: within, key: global_fail_depth_bf16, lo: 3, hi: 5, measurement: true}
+        - {type: within, key: global_fail_depth_fp16, lo: 6, hi: 8, measurement: true}
+        - {type: within, key: global_fail_depth_fp32, lo: 15, hi: 17, measurement: true}
+
+  H8:
+    statement: "Descent through shells matches flat routing with far fewer scores"
+    gate_dependency: G1
+    primary_key: descent_beam4_vs_flat_recall_at_M
+    rule: {type: min_delta, key: descent_beam4_vs_flat_recall_at_M, threshold: -3.0, require_ci_lower_above: -3.0}
+
+  H9:
+    statement: "Page-in by copy beats re-encoding above a measurable chunk size"
+    gate_dependency: G2
+    rule: {type: min_value, key: max_speedup_copy_over_prefill, threshold: 1.0, strict: true, measurement: true}
+
+  H10:
+    statement: "Pinning prevents thrashing when a step needs more origins than slots"
+    gate_dependency: G0
+    primary_key: pinned_vs_unpinned_repeat_pagein_reduction
+    rule: {type: min_delta, key: pinned_vs_unpinned_repeat_pagein_reduction, threshold: 0.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  # ---- Added in version 2 (PLAN_V3.md Section 7): Track B and C claims against the standard method.
+  # B1 is the same Qwen3-4B with standard attention and the same LoRA budget and data as V3; full recompute is the
+  # standard way to reuse a page at a new position. Non-inferiority margins are in EM points.
+
+  H11:
+    statement: "Origin-paged attention keeps the standard model's accuracy while holding at most a quarter of the KV cache resident"
+    gate_dependency: G2
+    primary_key: V3_paged_vs_B1_full_accuracy_lbmhqa_32k
+    secondary_reported: [V3_paged_vs_B1_full_accuracy_mtlbmhqa_32k, V3_peak_gpu_memory_ratio_to_B1]
+    rule:
+      all_of:
+        - {type: min_delta, key: V3_paged_vs_B1_full_accuracy_lbmhqa_32k, threshold: -3.0, require_ci_lower_above: -3.0}
+        - {type: max_value, key: V3_resident_kv_fraction_of_full, threshold: 0.25, measurement: true}
+
+  H12:
+    statement: "Origin-anchored attention makes fewer cross-thread mix-ups than standard attention"
+    gate_dependency: G2
+    primary_key: V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k
+    secondary_reported: [V3_vs_B1_accuracy_mtlbmhqa_32k_cross, V3_vs_B1_thread_confusion_slope_per_thread_count]
+    rule: {type: min_delta, key: V3_vs_B1_thread_confusion_reduction_mtlbmhqa_32k, threshold: 0.0, require_ci_excludes_zero: true, require_p_holm_below: 0.05}
+
+  H13:
+    statement: "Re-using a saved page by copy keeps full-recompute accuracy at a fraction of the reload time"
+    gate_dependency: G2
+    primary_key: copy_reuse_vs_full_recompute_accuracy_lbmhqa_32k
+    secondary_reported: [naive_reuse_vs_full_recompute_accuracy_lbmhqa_32k, copy_reuse_vs_cacheblend_style_accuracy_lbmhqa_32k, reload_speedup_copy_over_recompute_by_B]
+    rule:
+      all_of:
+        - {type: min_delta, key: copy_reuse_vs_full_recompute_accuracy_lbmhqa_32k, threshold: -2.0, require_ci_lower_above: -2.0}
+        - {type: min_value, key: reload_speedup_copy_over_recompute_B512, threshold: 2.0, measurement: true}

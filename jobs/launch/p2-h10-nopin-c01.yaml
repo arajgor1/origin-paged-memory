@@ -1,0 +1,44 @@
+name: p2-h10-nopin-c01
+envelope: E2
+track: A
+hypotheses:
+- H10
+system: thrash-nopin
+dataset: thrash
+cell: r3+r4+r6
+split: test
+seed: 101000
+entrypoint: opa.tracks.track_a:run_thrash
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/thrash/test/v2/r3/items.jsonl.gz
+    n_items: 287
+    offset: 0
+  - uri: gs://{bucket}/opa/data/thrash/test/v2/r4/items.jsonl.gz
+    n_items: 287
+    offset: 0
+  - uri: gs://{bucket}/opa/data/thrash/test/v2/r6/items.jsonl.gz
+    n_items: 286
+    offset: 0
+  M: 2
+  pinning: false
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 860 items x $0.00075 per item-arm (pair cost / 2, measured) + $0.066 start-up = $0.711 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $1.422
+estimate_usd: 0.72
+max_usd: 1.43
+max_api_usd: 0
+notes:
+- thrash prompt version thrash-v2 (opa.tracks.track_a.thrash.PROMPT_VERSION); M = 2; cells r3[0:287], r4[0:287], r6[0:286]
+- 'package line: H10 thrash (860 pairs) [n=860]'

@@ -1,0 +1,37 @@
+name: h5cell-sk-t8
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: sllm
+dataset: mtlbmhqa
+cell: T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:build_skeletons
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+    offset: 5
+  workers: 24
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 50 items (T8-h3-32k-cross) x $0.026/item (sllm-v2, workers 24) + $0.066 start-up = $1.366 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $2.732
+estimate_usd: 1.37
+max_usd: 2.74
+max_api_usd: 0
+notes:
+- the run id of this job replaces the skeleton placeholder in h5cell-t8-oracle and h5cell-t8-arms
+- REBUILD with the fixed builder (prompt_version sllm-v2); estimate = 50 x $0.026 + $0.066, max_usd = 2 x the estimate
+- 'headroom frozen at generation: E2 6.85; envelope E2 (E1 is exhausted)'

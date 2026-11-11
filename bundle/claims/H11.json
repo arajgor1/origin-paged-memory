@@ -1,0 +1,12 @@
+{
+  "id": "H11",
+  "statement": "Origin-paged attention keeps the standard model's accuracy while holding at most a quarter of the KV cache resident",
+  "verdict": "not_run_gate_failed",
+  "results": [],
+  "figures": [],
+  "deviations": [
+    "DEV-PLAN-REV4"
+  ],
+  "notes": "Not run: gate G2 failed.",
+  "failed_gate": "G2"
+}

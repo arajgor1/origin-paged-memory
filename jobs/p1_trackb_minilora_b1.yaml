@@ -1,0 +1,35 @@
+# Job spec for `python -m opa.launch run jobs/p1_trackb_minilora_b1.yaml`. Pilot check 4: mini-LoRA run of B1 (standard attention; identical data incl. text origin headers, LoRA, lr; EXACTLY the same number of optimizer steps as V3) for H4.
+name: p1-minilora-b1
+envelope: E1
+track: B
+hypotheses: [H4, G2]
+system: B1
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.train:main
+args:
+  arm: B1
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  max_opt_steps: V3_OPT_STEPS   # PLACEHOLDER: replace by the integer opt_steps of the finished V3 run before launching (train.main refuses a non-integer)
+  time_budget_s: 1400           # safety stop only; if it fires first the run reports equal_steps_met: false
+  eval_every: 40
+  headers: true
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # L4 (24 GB), bf16 weights 8.0 GB resident. Training memory (see opa/trackb/train.py): LoRA r16 on q,k,v,o = 11.7 M fp32 params + AdamW state 0.2 GB; V3 adds 25 M OAA params; gradient checkpointing; sequences <= 4096 tokens (4-6 origins of ~520 tokens incl. header + tail); the loss is taken on the target tokens only; the dense [1, 32, T, T] OAA bias is 1.3 GB fp32 at T = 3.2K. The run does a memory PREFLIGHT (longest of the first 50 examples forward+backward + a C=8 probe window) and aborts above 21 GiB; peak_mem_gib is logged every 5 steps.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000222 + 0.0000524 + 0.00007104 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "(240 s start-up: container, weights from the opa-hf-cache volume, PG-19 validation download and tokenisation + 1400 s time_budget_s (preflight, evaluations and training; PLAN check 4: at most 30 GPU-minutes) + 20 s adapter save) = 1660 s x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 $/s) = $0.573"
+estimate_usd: 0.57
+max_usd: 0.62                                # launcher timeout = floor(0.62 / 0.00034544) = 1,794 s
+max_api_usd: 0

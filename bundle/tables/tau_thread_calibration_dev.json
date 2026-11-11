@@ -1,0 +1,70 @@
+{
+  "script": "code/opa/analysis/tau_calibration.py",
+  "inputs": [
+    {
+      "uri": "gs://YOUR_BUCKET/opa/runs/A-embed-lbmhqa+mtlbmhqa-3cells-dev-s0-20261107041041-2b257da-a07c/embeddings.npz",
+      "sha256": "2c9a438e43766250c40832482ed2a37c3d92c5869201f5240e178339d73ee74c"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/runs/A-embed-lbmhqa+mtlbmhqa-13cells-dev-s0-20261107041042-2b257da-2ba0/embeddings.npz",
+      "sha256": "fced1a2e2c60ceedd5b8f74e840f477223d4fcea53150704e4ae03257152b9c4"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-cross/items.jsonl.gz",
+      "sha256": "bad167fa537fa66aa254364db0939c81289237ac423243a80e381fe7c8db26db"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T16-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "b8cd71e19b349e2f08f8d9c3dcce227e503db864057fc72e9e6a3b2feaaf4964"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross/items.jsonl.gz",
+      "sha256": "6522b45d95de5a1ccf6d23b2ab5478b5b174b70b43ef3a53168b29355b880973"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "943285cb690cc8a1a6ded75db5c50ae886adb5db5fccefc5a9cc7ca10529ba40"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz",
+      "sha256": "3689533a84c2488239a29c2aa1305cda1a95dc3e5a2217af52c9eeba69e04ef1"
+    },
+    {
+      "uri": "gs://YOUR_BUCKET/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-nocross/items.jsonl.gz",
+      "sha256": "bd23daa5d05db4ccd23332cb3098cbcdb0577bf117e90c21345563374fb70598"
+    }
+  ],
+  "created_at": "2026-11-07T05:13:53Z",
+  "table_sha256": "8e1ec5e1fc861c109a65d8edb42361b22fc5359729ff36f1e4d892e66e5b9cde",
+  "chosen_tau_thread": 0.65,
+  "previous_tau_thread": 0.7,
+  "taus": [
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95
+  ],
+  "tie_tolerance": 0.005,
+  "n_items": 10,
+  "offset": 0,
+  "embedding_meta": {
+    "task": "Given a question about an archive of documents, retrieve the archive passages that state the facts needed to answer it",
+    "model": "microsoft/harrier-oss-v1-0.6b",
+    "revision": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee",
+    "max_length": 1024,
+    "dtype": "float32",
+    "pooling": "last_token_l2",
+    "B": 512,
+    "device": "cuda",
+    "query_style": "harrier",
+    "dim": 1024,
+    "version": "emb-v2"
+  },
+  "n_items_short": []
+}

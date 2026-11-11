@@ -1,0 +1,38 @@
+# P4 training-free variants on the TEST split (closure item 14): V0, V1, B2, B4 x tasks 1-5, 80 items per task per variant (400 per variant), PG-19 test books, seeds from 100000,
+# 16 probe windows of C = 8 per variant: supplies V0_own_origin_mass_ratio_to_uniform (H4) and the reported contrasts against V0. One container.
+name: p4-trainfree-test
+envelope: E3
+track: B
+hypotheses: [H4]
+system: trainfree
+dataset: mtlbmhqa-archive
+cell: archive64-T8-test
+split: test
+seed: 100000
+entrypoint: opa.trackb.trainfree:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  split: test
+  seed0: 100000
+  prereg_tag: {"tag": "prereg-v2", "commit": "c8a0a5e910abf2da315bd00425f5c90d9e82600c"}
+  n: 80
+  C: 6
+  probe_C: 8
+  n_probe_windows: 16
+  headers: true
+  variants: ["V0", "V1", "B2", "B4"]
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "the dev smoke (913 s wall at 16 items per task, 12 probe windows) x 5 (80 per task; the 64 windows scale less than x5, so this is conservative) = 4567 s x 0.00034544 $/s = $1.58"
+estimate_usd: 1.58
+max_usd: 3.16                                # first-time job type: 2x the estimate; launcher timeout = floor(3.16 / 0.00034544) = 9,147 s
+max_api_usd: 0

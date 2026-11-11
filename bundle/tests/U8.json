@@ -1,0 +1,55 @@
+{
+  "id": "U8",
+  "name": "Paging identity: TV(full, paged) = evicted router mass, paged attention from a real kernel pass",
+  "passed": true,
+  "details": "Pre-registered criterion met (max abs error between the TV distance and the evicted router mass is within the tolerance, DEV-U8). The harness flag is false because the auxiliary SDPA-vs-(a_paged @ v) check exceeds 1e-5 absolute; reported literally. 9 paged kernel passes (the kernel hides the evicted origins' keys from the tail's query rows in one layer; layers [0, 18, 35]), 81 (layer, head, query, resident subset) cases: TV between the full pass's and the paged pass's attention vs the evicted router mass: max abs difference 3.33e-16; paged SDPA output vs a_paged @ v 2.08e-05; q,k,v of the two passes differ by 0.0e+00; weight on evicted keys 0.0e+00 (tolerance 1e-05, fp32); evicted masses covered 5.16e-16 to 1.",
+  "run_id": "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da",
+  "criterion": "Paging identity: total-variation distance between full and paged attention equals the evicted router mass (tolerance <= 1e-5 in fp32; protocol 5.1 table as adopted by the registration Section 9)",
+  "metrics": {
+    "tv_vs_evicted_router_mass_max_abs_err": 3.3306690738754696e-16,
+    "paged_sdpa_output_max_abs_err": 2.082143493975508e-05,
+    "inputs_max_abs_diff_between_passes": 0.0,
+    "paged_weight_on_evicted_keys_max": 0.0,
+    "cases": 81,
+    "paged_passes": 9,
+    "layers": [
+      0,
+      18,
+      35
+    ],
+    "fractions": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "tolerance": 1e-05,
+    "evicted_router_mass_range": [
+      5.163176051069984e-16,
+      0.9999999989507731
+    ],
+    "live_settings": {
+      "A_std": 0.5,
+      "lambda": 2.0,
+      "g": 1.0
+    },
+    "T": 528,
+    "query_rows": "tail"
+  },
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false
+  },
+  "harness_flag": false,
+  "harness_criterion": "max abs error <= 1e-5 in fp32 (TV vs evicted mass, paged output vs a_paged @ v)",
+  "preregistered_criterion": "Paging identity: total-variation distance between full and paged attention equals the evicted router mass (tolerance <= 1e-5 in fp32; protocol 5.1 table as adopted by the registration Section 9)",
+  "deviation": "DEV-U8"
+}

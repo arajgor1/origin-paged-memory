@@ -1,0 +1,80 @@
+{
+  "id": "U4",
+  "name": "OAA with A = 0, lambda = 0, g = 0 reproduces M5",
+  "passed": true,
+  "details": "M5 window of 4 origins x 128 tokens + 16-token tail of origin 7; OAA active with A = 0, lambda = 0, g = 0 but random W_r and U (sum of norms 583, 130), nonzero addresses and hyperbolic LCA-frame distances in [1.000, 6.310]: max |logit diff| vs M5 = 0.0 (same kernel; criterion exact 0). Live check (A ~ N(0, 0.5^2), lambda = 2, g = 1) changes logits by 1.722e+01. bfloat16 pass (parameters cast in place, OAA parameters and rotary buffers fp32): pass, see rec['bf16'].",
+  "run_id": "B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d",
+  "criterion": "logits identical (max abs diff == 0, same attention kernel); live check diff > 0",
+  "metrics": {
+    "max_abs_logit_diff": 0.0,
+    "live_check_max_abs_logit_diff": 17.218351364135742,
+    "live_check_settings": {
+      "A_std": 0.5,
+      "lambda": 2.0,
+      "g": 1.0
+    },
+    "W_r_frobenius_sum": 582.88525390625,
+    "U_frobenius_sum": 130.333740234375,
+    "distance_range": [
+      1.0,
+      6.309657096862793
+    ],
+    "address_norm_max": 0.9640275835990906,
+    "window_origins": [
+      1,
+      5,
+      2,
+      6
+    ],
+    "current_origin": 7,
+    "m": 32,
+    "T": 528,
+    "B": 128
+  },
+  "seconds": 2.788,
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false,
+    "gpu_mem_after_load_gib": 15.08
+  },
+  "bf16": {
+    "dtype": "bfloat16",
+    "passed": true,
+    "metrics": {
+      "max_abs_logit_diff": 0.0,
+      "live_check_max_abs_logit_diff": 17.09375,
+      "live_check_settings": {
+        "A_std": 0.5,
+        "lambda": 2.0,
+        "g": 1.0
+      },
+      "W_r_frobenius_sum": 582.88525390625,
+      "U_frobenius_sum": 130.333740234375,
+      "distance_range": [
+        1.0,
+        6.309657096862793
+      ],
+      "address_norm_max": 0.9640275835990906,
+      "window_origins": [
+        1,
+        5,
+        2,
+        6
+      ],
+      "current_origin": 7,
+      "m": 32,
+      "T": 528,
+      "B": 128
+    },
+    "details": "M5 window of 4 origins x 128 tokens + 16-token tail of origin 7; OAA active with A = 0, lambda = 0, g = 0 but random W_r and U (sum of norms 583, 130), nonzero addresses and hyperbolic LCA-frame distances in [1.000, 6.310]: max |logit diff| vs M5 = 0.0 (same kernel; criterion exact 0). Live check (A ~ N(0, 0.5^2), lambda = 2, g = 1) changes logits by 1.709e+01."
+  }
+}

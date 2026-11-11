@@ -1,0 +1,10 @@
+{
+  "id": "H9",
+  "statement": "Page-in by copy beats re-encoding above a measurable chunk size",
+  "verdict": "not_run_gate_failed",
+  "results": [],
+  "figures": [],
+  "deviations": [],
+  "notes": "Not run: gate G2 failed. The owner asked for an exploratory request with a cost estimate (budget/requests/H9_exploratory.md).",
+  "failed_gate": "G2"
+}

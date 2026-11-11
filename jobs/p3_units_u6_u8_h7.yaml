@@ -1,0 +1,37 @@
+# Job spec for `python -m opa.launch run jobs/p3_units_u6_u8_h7.yaml`. P3.1 unit tests U6-U8 (protocol 5.1) and the P3.4 H7 measurements on Qwen3-4B.
+# U6/H7: precision sweeps (CPU torch, no model needed; run first so they survive any later failure): global-coordinate first failing depth for
+# bf16/fp16/fp32 (relative step-distance error > 0.1, as in the reference code) and the re-anchored error growth ratio depth 40 vs depth 1 (bf16,
+# offsets stored in the dtype, composed in float32 in the LCA frame by the kernel's AddressBookTorch; 512 chains for a tight bootstrap band).
+# U7: factorization on the real model's own attention in float32 (live OAA parameters). U8: paging identity from REAL kernel passes - one full pass plus 9 paged passes (3 layers x 3 resident fractions) in which the kernel hides the evicted origins' keys from the tail's query rows.
+# Writes tests/U6.json, tests/U7.json, tests/U8.json and h7.json (the four H7 keys of prereg/rules.yaml are also in the run metrics).
+name: p3-units-u6-u8-h7
+envelope: E3
+track: B
+hypotheses: [H7, G0]
+system: units
+dataset: none
+cell: u6-u8-h7
+split: dev
+seed: 0
+entrypoint: opa.trackb.units_h7:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507         # loaded in float32; U7 and U8 compare in fp32
+  chains: 512
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # Same memory plan as the U1-U5 job (opa/trackb/units.py docstring): bf16 checkpoint to the GPU, upcast to fp32 there, 16.1 GB resident;
+  # U7/U8 record q/k/v/base mask/bias for 3 layers of a 528-token window (a few hundred MB). The H7 sweeps are CPU-side.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000222 + 0.0000524 + 0.00007104 = 0.00034544 /s (= $1.24/h)
+# ESTIMATE, not measured: the U1-U5 run on this model took 64 s end to end (load + tests); U7/U8 are two more forward passes with recording
+# (a few seconds each); the H7 sweeps took 7.7 s for 128 chains on a laptop CPU, so 512 chains is about 30 s there and, at a guessed 2x on 2
+# container cores, 60 s. Total 64 + 35 + 60 = about 160 s, rounded up to 170 s.
+estimate_formula: "170 s (64 s from the measured U1-U5 job: container + fp32 load + tests; +35 s U7 and the 10 forward passes of U8 (about 2 s each in fp32 at 528 tokens, guessed); +60 s H7 sweeps, 512 chains, guessed at 2x the laptop time of 30 s) x (L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 $/s) = $0.059"
+estimate_usd: 0.06
+max_usd: 0.30                                # launcher timeout = floor(0.30 / 0.00034544) = 868 s
+max_api_usd: 0

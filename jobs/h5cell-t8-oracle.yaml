@@ -1,0 +1,42 @@
+name: h5cell-t8-oracle
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: S18
+dataset: mtlbmhqa
+cell: T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+    offset: 5
+  systems:
+  - S18
+  embedder: precomputed:gs://{bucket}/opa/runs/H5CELL_VEC_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/H5CELL_SK_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: $0.066 start-up + (S18 1142.2 s per 50 items, measured on MT T4 cross) = 1142 s x $0.000345/s = $0.461 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $0.921
+estimate_usd: 0.47
+max_usd: 0.93
+max_api_usd: 0
+notes:
+- 'oracle-solvability check of T8 h3 cross: S18 >= 0.60 qualifies the cell (PLAN_V3 s8 item 3)'
+- 'headroom frozen at generation: E2 6.85; envelope E2 (E1 is exhausted)'

@@ -1,0 +1,31 @@
+# Job spec for `python -m opa.launch run jobs/p0_trackb_units.yaml`. Work unit P0.11: Track B unit tests U1-U5 (G0).
+name: p0-trackb-units
+envelope: E0
+track: B
+hypotheses: [G0]
+system: units
+dataset: none
+cell: u1-u5
+split: dev
+seed: 0
+entrypoint: opa.trackb.units:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507         # U1-U5 in float32, then U2-U4 again in bfloat16 (cast in place)
+  # fallback: true                           # logged fallback: Qwen/Qwen2.5-1.5B-Instruct (use instead of `model`)
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  # L4 (24 GB). Memory plan (details in the opa.trackb.units docstring): the checkpoint is loaded as bf16 (8 GB host
+  # RAM), moved to the GPU and upcast to fp32 there: 16.1 GB resident, transient peak ~17.7 GB. The longest pass is 528
+  # tokens (logits 0.32 GB, dense [1, 32, 528, 528] fp32 masks 36 MB per layer), so ~18 GB in total with ~6 GB headroom.
+  # A T4 (16 GB) cannot hold the fp32 weights. The model is then cast to bf16 in place (8 GB) for the bf16 pass.
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # host RAM: 8 GB bf16 checkpoint + loader overhead
+# Rates from the human-owned rate card (verified 2026-11-06), USD per second:
+#   L4 0.000222 + 2.0 cores x 0.0000131 + 16 GiB x 0.00000222 = 0.000222 + 0.0000262 + 0.00003552 = 0.00028372 /s (= $1.02/h)
+estimate_formula: "1000 s (about 17 min: 8 GB weight download ~200 s, load + fp32 upcast ~100 s, U1-U5 fp32 + U2-U4 bf16 ~300 s, margin) x (L4 0.000222 + 2.0 cores x 0.0000131 + 16 GiB x 0.00000222 = 0.00028372 $/s) = $0.28"
+estimate_usd: 0.29
+max_usd: 1.00                                # launcher timeout = floor(1.00 / 0.00028372) = 3,524 s (58.7 min)
+max_api_usd: 0

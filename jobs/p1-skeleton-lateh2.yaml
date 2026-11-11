@@ -1,0 +1,39 @@
+name: p1-skeleton-lateh2
+envelope: E2
+track: A
+hypotheses:
+- P1-prep
+system: sllm
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:build_skeletons
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 50
+  workers: 24
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 50 items (late-h2-32k-a0 x 50) x $0.034/item (measured on the lateh3 rebuild A-sllm-lbmhqa-late-h3-32k-a0-dev-s0-20261107113922-f2e104d-7134) + $0.066 start-up (190 s x $0.000346/s) = $1.766 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $3.532
+estimate_usd: 1.77
+max_usd: 3.54
+max_api_usd: 0
+notes:
+- the run id of this job replaces the late-h2 skeleton placeholder in the p1-lb-late-h2 specs
+- REBUILD with the fixed builder (prompt_version sllm-v2); no old skeleton run is reused
+- 'estimate = items x $0.034 + $0.066 start-up, measured on the lateh3 rebuild (A-sllm-lbmhqa-late-h3-32k-a0-dev-s0-20261107113922-f2e104d-7134: $1.681 for 50 items, 4,866 s at 12 workers); max_usd = 2 x the estimate'
+- 'workers 24: a decode-bound vLLM on an L4 gains aggregate throughput from more concurrent streams; the estimate stays at the measured 12-worker rate as a conservative bound'
+- run_system reads ONE skeleton directory (skeleton_llm_uri is a single string), so each directory holds every item its readers need
+- 'headroom frozen at generation: E1 2.33, E2 22.00; stage A and Track B spend are in the ledger; envelope assigned greedily in launch order'

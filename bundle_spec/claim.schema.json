@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OPA claim file (bundle/claims/H<n>.json)",
+  "type": "object",
+  "required": [
+    "id",
+    "statement",
+    "verdict",
+    "results",
+    "figures",
+    "deviations",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^H([1-9]|1[0-9])$"
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 10
+    },
+    "verdict": {
+      "enum": [
+        "supported",
+        "refuted",
+        "inconclusive",
+        "not_run_gate_failed"
+      ]
+    },
+    "failed_gate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^G[0-4]$"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/result"
+      }
+    },
+    "figures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^figures/.+\\.png$"
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "result": {
+      "type": "object",
+      "required": [
+        "key",
+        "level",
+        "value",
+        "n",
+        "split",
+        "primary",
+        "run_ids",
+        "table_ref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Matches a key in prereg/rules.yaml when the result feeds a verdict; free text for secondary results"
+        },
+        "description": {
+          "type": "string"
+        },
+        "level": {
+          "enum": [
+            "agent",
+            "model",
+            "systems",
+            "measurement"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "description": "Point estimate: a difference in points for *_vs_* keys, else the measured value"
+        },
+        "ci95": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Paired items per arm (0 for deterministic measurements)"
+        },
+        "p_raw": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "p_holm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "test": {
+          "type": "string"
+        },
+        "split": {
+          "enum": [
+            "test",
+            "dev",
+            "n/a"
+          ]
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "run_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "table_ref": {
+          "type": "string",
+          "pattern": "^tables/.+\\.csv#row=.+$"
+        }
+      }
+    }
+  }
+}

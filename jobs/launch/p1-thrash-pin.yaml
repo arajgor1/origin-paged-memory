@@ -1,0 +1,42 @@
+name: p1-thrash-pin
+envelope: E2
+track: A
+hypotheses:
+- H10
+system: thrash-pin
+dataset: thrash
+cell: r3+r4+r6
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_thrash
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/thrash/dev/v2/r3/items.jsonl.gz
+    n_items: 30
+  - uri: gs://{bucket}/opa/data/thrash/dev/v2/r4/items.jsonl.gz
+    n_items: 30
+  - uri: gs://{bucket}/opa/data/thrash/dev/v2/r6/items.jsonl.gz
+    n_items: 30
+  M: 2
+  pinning: true
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 189 s start-up + 90 items x 25.1 s (avg 17.1 steps x (2500 in tok / 2570 + 80 out tok / 160 tok/s)) = 2451 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.847
+estimate_usd: 0.85
+max_usd: 1.7
+max_api_usd: 0
+notes:
+- 'NOT MEASURED: no thrash run has happened; steps = 0.8 x the step cap 4r+4, prompt ~2,500 tokens per step (assumed)'
+- M = 2 (cells r3, r4, r6 are above the slot count)
+- 'headroom frozen at generation: E1 2.33, E2 22.00; stage A and Track B spend are in the ledger; envelope assigned greedily in launch order'

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OPA gate file (bundle/gates/G<n>.json)",
+  "type": "object",
+  "required": [
+    "id",
+    "passed",
+    "decided_at",
+    "criteria",
+    "evidence",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^G[0-4]$"
+    },
+    "passed": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "null only if the gate was never reached because an earlier gate failed"
+    },
+    "decided_at": {
+      "type": "string"
+    },
+    "criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "threshold",
+          "observed",
+          "met"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "threshold": {},
+          "observed": {},
+          "met": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

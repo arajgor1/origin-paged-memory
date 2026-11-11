@@ -1,0 +1,20 @@
+# Dev dry-run series for opa.analysis.interim (split dev; the dev pilot runs, never test data).
+#   python -m opa.analysis.interim --split dev --runs jobs/interim/series_dev.yaml --out bundle
+# p2: series -> [run id, ...] exactly as opa.analysis.p2_results reads it.
+# interim: optional inputs of the units / Track B tables (all dev-split runs; see opa/analysis/interim.py).
+p2:
+  h1-lb:
+    - A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168
+  h1-s4:
+    - A-S4-lbmhqa-late-h2-32k-a0-dev-s0-20261107185331-1d7070d-f13c
+  h5-mt:
+    - A-S12+S14+S15+S16+S18-mtlbmhqa-T4-h3-32k-cross-dev-s0-20261107163638-1aaa09a-db29
+  h10-pin:
+    - A-thrash-pin-thrash-r3+r4+r6-dev-s0-20261107151336-a9bc456-d940
+  h10-nopin:
+    - A-thrash-nopin-thrash-r3+r4+r6-dev-s0-20261107151338-a9bc456-c13b
+interim:
+  units_u1_u5: B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d
+  units_u6_u8_h7: B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da
+  learning_curve:
+    - B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261107223205-86f471f-64ea

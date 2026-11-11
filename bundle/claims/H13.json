@@ -1,0 +1,12 @@
+{
+  "id": "H13",
+  "statement": "Re-using a saved page by copy keeps full-recompute accuracy at a fraction of the reload time",
+  "verdict": "not_run_gate_failed",
+  "results": [],
+  "figures": [],
+  "deviations": [
+    "DEV-PLAN-REV5"
+  ],
+  "notes": "Not run: gate G2 failed (PLAN_V3 Section 6). It was also not funded in the approved package (registration Section 2b).",
+  "failed_gate": "G2"
+}

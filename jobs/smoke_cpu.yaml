@@ -1,0 +1,17 @@
+name: smoke-cpu
+envelope: E0
+track: X
+hypotheses: [G0]
+system: smoke
+dataset: none
+cell: cpu
+split: dev
+seed: 0
+entrypoint: opa.tracks.smoke:main
+args: {}
+models: {}
+compute: {kind: cpu, gpu: null, cpu: 1.0, memory_gib: 2}
+estimate_formula: "about 2 minutes of one CPU core + 2 GiB: well under $0.01"
+estimate_usd: 0.02
+max_usd: 0.50
+max_api_usd: 0

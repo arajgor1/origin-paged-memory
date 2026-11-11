@@ -1,0 +1,26 @@
+name: p0-trackb-units
+envelope: E0
+track: B
+hypotheses:
+- G0
+system: units
+dataset: none
+cell: u1-u5
+split: dev
+seed: 0
+entrypoint: opa.trackb.units:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '1000 s (about 17 min: 8 GB weight download ~200 s, load + fp32
+  upcast ~100 s, U1-U5 fp32 + U2-U4 bf16 ~300 s, margin) x (L4 0.000222 + 2.0 cores
+  x 0.0000131 + 16 GiB x 0.00000222 = 0.00028372 $/s) = $0.28'
+estimate_usd: 0.29
+max_usd: 1.0
+max_api_usd: 0

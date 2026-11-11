@@ -1,0 +1,40 @@
+name: p1-embed-pilot
+envelope: E1
+track: A
+hypotheses:
+- P1-prep
+system: embed
+dataset: lbmhqa+mtlbmhqa
+cell: 5cells
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:embed_items
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/forward-h2-32k-a0/items.jsonl.gz
+    n_items: 50
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/mixed-h2-32k-a0/items.jsonl.gz
+    n_items: 50
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/forward-h3-32k-a0/items.jsonl.gz
+    n_items: 50
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/mixed-h3-32k-a0/items.jsonl.gz
+    n_items: 50
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 50
+  embedder: harrier
+  B: 512
+  batch: 16
+models:
+  embedder: microsoft/harrier-oss-v1-0.6b
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 12
+estimate_formula: 250 items (forward-h2-32k-a0 x 50, mixed-h2-32k-a0 x 50, forward-h3-32k-a0 x 50, mixed-h3-32k-a0 x 50, T4-h3-32k-cross x 50) x 5.7 s/item (measured, incl. start-up) = 1425 s = 1425 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 24 GiB(limit) x 0.00000222 = 0.000328 $/s) = $0.467
+estimate_usd: 0.47
+max_usd: 0.94
+max_api_usd: 0
+notes:
+- 'every item any stage-B variant could need, except those p0-embed-dev already holds (LB late h2 and h3, 50 items each, which the late-cell jobs keep reading); a job reads one npz, so forward/mixed at both h and MT T4 cross (h3 only: no MT h2 cells exist) are all here; the 10 forward/mixed h3 and T4 items of p0-embed-dev-aux are re-embedded in full (50)'
+- 'headroom frozen at generation: E1 5.65, E2 22.00; envelope assigned greedily in launch order'

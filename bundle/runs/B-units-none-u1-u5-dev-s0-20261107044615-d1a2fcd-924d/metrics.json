@@ -1,0 +1,91 @@
+{
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false,
+    "gpu_mem_after_load_gib": 15.08
+  },
+  "sizes": {
+    "B": 128,
+    "n_origins": 4,
+    "tail": 16,
+    "u1_T": 64,
+    "u1_m0": 2560,
+    "u3_len": 256,
+    "red_dot": 8,
+    "m": 32
+  },
+  "U1_passed": true,
+  "U1_summary": {
+    "definition": "U1 two-part definition, deviation DEV-U1, see state/decisions.md",
+    "part_a_float64_pass": true,
+    "part_b_fp32_ulps_pass": true,
+    "float64_tolerance": 1e-10,
+    "fp32_tolerance_ulps": 4.0,
+    "reported_literal_1e5_abs_pass": false,
+    "reported_literal_tolerance": 1e-05,
+    "fp32_max_abs_err": 6.103515625e-05,
+    "tolerance": 1e-05,
+    "float64_max_abs_err": 1.1368683772161603e-13,
+    "max_abs_pre_rope_key": 298.3912658691406,
+    "fp32_rel_err": 2.0454739542130883e-07,
+    "fp32_ulp_at_max_key": 3.0517578125e-05,
+    "fp32_err_in_ulps_of_max_key": 2.0,
+    "reported_relative_criterion_pass": true,
+    "layout_check_max_rel_err": 0.0,
+    "layout_check_pass": true,
+    "reported_hf_fp32_angle_path_max_abs_err": 0.02912163734436035,
+    "layers": 36,
+    "T": 64
+  },
+  "U5_passed": true,
+  "U5_summary": {
+    "a_primitives_fp32_max_abs_err": 4.76837158203125e-07,
+    "a_pass": true,
+    "b_lca_distance_float64_max_abs_err": 1.1191048088221578e-13,
+    "b_pass": true,
+    "c_port_fp32_err_vs_truth": 3.3430865382655384e-05,
+    "c_reference_fp32_err_vs_truth": 3.52382370447657e-05,
+    "c_pass": true,
+    "reported_port_vs_reference_fp32_max_abs_gap": 2.5318867610479856e-05,
+    "reported_port_vs_reference_fp32_gap_within_d_4.61": 3.849348487960924e-06,
+    "passed": true
+  },
+  "U2_passed": true,
+  "U2_summary": {
+    "max_abs_logit_diff": 0.0,
+    "negative_control_M1_max_abs_logit_diff": 6.410086631774902,
+    "positions_equal_arange": true,
+    "T": 528,
+    "B": 128,
+    "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.0
+  },
+  "U3_passed": true,
+  "U3_summary": {
+    "single_origin": 0.0,
+    "single_origin_red_dot_prefix": 0.0
+  },
+  "U4_passed": true,
+  "U4_summary": {
+    "max_abs_logit_diff": 0.0,
+    "live_check_max_abs_logit_diff": 17.218351364135742,
+    "W_r_frobenius_sum": 582.88525390625,
+    "U_frobenius_sum": 130.333740234375,
+    "address_norm_max": 0.9640275835990906,
+    "current_origin": 7,
+    "m": 32,
+    "T": 528,
+    "B": 128
+  },
+  "gpu_peak_mem_gib": 16.68,
+  "all_passed": true,
+  "seconds": 28.9
+}

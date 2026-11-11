@@ -1,0 +1,36 @@
+name: p0-smoke-vllm
+envelope: E0
+track: A
+hypotheses:
+- P0-unit-costs
+system: S1
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 2
+  system: S1
+  embedder: hash
+  workers: 2
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '360 s start-up (first download of the weights + vLLM load) + 2 items x 19.5 s (S1: 34.5K prefill tok / 1800 tok/s + 40 out tok / 120 tok/s) x 1.25 = 409 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.141'
+estimate_usd: 0.15
+max_usd: 0.29
+max_api_usd: 0
+notes:
+- 'smoke: proves the vLLM image, the memory at max_model_len 40960 and one S1 answer; embedder ''hash'' is used on purpose (S1 does not use embeddings), so this job does not depend on p0-embed-dev'
+- 'check the run''s metrics: n=2, errors=0, does_not_fit=0, and that the prediction field is non-empty'

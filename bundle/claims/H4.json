@@ -1,0 +1,94 @@
+{
+  "id": "H4",
+  "statement": "Fresh frames alone alias origins; the origin vector repairs it and adds provenance",
+  "verdict": "refuted",
+  "results": [
+    {
+      "key": "V3_vs_B1_source_attribution",
+      "level": "model",
+      "value": -68.42105263157895,
+      "ci95": [
+        -70.25703794369645,
+        -66.54426764585884
+      ],
+      "n": 2451,
+      "p_raw": 0.0,
+      "p_holm": 0.0,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "B-V3-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108055405-deba7e6-2d2b",
+        "B-V3-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108055407-9088267-9eba",
+        "B-B1-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108064554-978714a-fb66",
+        "B-B1-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108064556-f6b1dec-f108"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=V3_vs_B1_source_attribution",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    },
+    {
+      "key": "V3_vs_B1_source_attribution_rank",
+      "level": "model",
+      "value": -68.29865361077111,
+      "ci95": [
+        -70.13463892288861,
+        -66.46266829865361
+      ],
+      "n": 2451,
+      "p_raw": 0.0,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "B-V3-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108055405-deba7e6-2d2b",
+        "B-V3-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108055407-9088267-9eba",
+        "B-B1-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108064554-978714a-fb66",
+        "B-B1-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108064556-f6b1dec-f108"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=V3_vs_B1_source_attribution_rank",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar",
+      "description": "rank-restricted accuracy; reported only"
+    },
+    {
+      "key": "V3_own_origin_mass_fraction",
+      "level": "model",
+      "value": 0.3227352201027167,
+      "ci95": null,
+      "n": 16,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "B-V3-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108055405-deba7e6-2d2b"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=V3_own_origin_mass_fraction",
+      "test": "measurement (mean over probe windows; no test)"
+    },
+    {
+      "key": "V0_own_origin_mass_ratio_to_uniform",
+      "level": "model",
+      "value": 1.0018207905064282,
+      "ci95": null,
+      "n": 16,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "B-trainfree-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108063140-554da88-e832"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=V0_own_origin_mass_ratio_to_uniform",
+      "test": "measurement (mean over probe windows; no test)"
+    }
+  ],
+  "figures": [
+    "figures/fig_v3_learning_curve_dev.png"
+  ],
+  "deviations": [
+    "DEV-TRAIN-PIN",
+    "DEV-PLAN-REV2",
+    "DEV-U1",
+    "DEV-FAILED-RUNS"
+  ],
+  "notes": "V3 and B1 are the checkpoints pinned in DEV-TRAIN-PIN (stopping rule fired at step 600). B1's attribution reflects the text origin headers both models carry (registration Section 12 item 22). G2 failed on fresh dev seeds."
+}

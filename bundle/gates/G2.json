@@ -1,0 +1,52 @@
+{
+  "id": "G2",
+  "passed": false,
+  "decided_at": "2026-11-08T07:14:02Z",
+  "criteria": [
+    {
+      "name": "V3_own_origin_mass_fraction (H4 part; trained V3 at the stopping-rule length L = 600, fresh dev seeds 3000+)",
+      "threshold": ">= 0.90",
+      "observed": {
+        "value": 0.31402178068351017,
+        "run": "B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108050012-063b486-d41d",
+        "resumed_from_sha256": "f80aa344cbce0e461e3958f2ed16bb373ffd8900792ca3168c6f87214ddc3814",
+        "opt_steps": 600
+      },
+      "met": false
+    },
+    {
+      "name": "V3 - B1 source attribution (H4 part; same fresh dev items, both at L = 600)",
+      "threshold": "> 0",
+      "observed": {
+        "V3": 0.34375,
+        "B1": 1.0,
+        "difference_points": -65.625,
+        "runs": [
+          "B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108050012-063b486-d41d",
+          "B-B1-mtlbmhqa-archive-archive64-T8-dev-s0-20261108064551-b01a6df-fbfe"
+        ],
+        "B1_resumed_from_sha256": "eeccb50e8f89f95dd82f008a376a6b6b245137c633a3017fd01b10b136ed8bff"
+      },
+      "met": false
+    },
+    {
+      "name": "best_remedy_recovery_fraction (H6 part; remedies pilot, non-oracle R3-R6)",
+      "threshold": ">= 0.90",
+      "observed": {
+        "value": 0.9166666666666666,
+        "acc_R0": 0.5,
+        "run": "B-R0-R7-mtlbmhqa-archive-T4-h2-8k-nocross-dev-s0-20261107124615-ac57b55-5c1e"
+      },
+      "met": true
+    }
+  ],
+  "evidence": [
+    "B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108050012-063b486-d41d",
+    "B-B1-mtlbmhqa-archive-archive64-T8-dev-s0-20261108064551-b01a6df-fbfe",
+    "B-R0-R7-mtlbmhqa-archive-T4-h2-8k-nocross-dev-s0-20261107124615-ac57b55-5c1e",
+    "B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108031640-6c44911-9560",
+    "B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261107223205-86f471f-64ea",
+    "B-B1-mtlbmhqa-archive-archive64-T8-dev-s0-20261108044732-a400cda-cae6"
+  ],
+  "notes": "PLAN_V3 revision 2 Section 6a: judged after V3 and B1 were trained to the pre-set stopping rule (fired at L = 600: own-origin fraction 0.3066 -> 0.3204, rise 0.0137 < 0.02 on the dev monitoring set), on fresh dev seeds 3000+, thresholds unchanged, point estimates. Checkpoints pinned in prereg/deviations/DEV-TRAIN-PIN.md. The 30-minute mini-LoRA pilot (39 steps: V3 attribution 0.19 vs B1 0.91, own-origin ratio 1.16) had been seen when revision 2 was made; reported next to this result. Both V3 and B1 carry text origin headers; B1's attribution of 1.00 reflects what the headers give (registration Section 12 item 22). Consequence (PLAN_V3 Section 6): H5 model level, H11, H12, H13 not_run_gate_failed; A1-A3 not trained; H9 depends on G2 -> not run (owner instruction A6)."
+}

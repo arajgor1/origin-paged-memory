@@ -1,0 +1,38 @@
+# P4 H6 TEST (closure item 18): remedies R0-R7 on T4-h2-16k-nocross test items 100..199 of 200 (mtlbmhqa), windows of C = 6 origins, k = 2 parents, greedy EM.
+# The cell must exist first: python -m opa.data.build --dataset mtlbmhqa --split test --cell T4-h2-16k-nocross --n 200; python -m opa.data.upload --dataset mtlbmhqa --split test
+# (see `python jobs/make_p4_test_jobs.py --data-commands`). best_remedy_recovery_fraction = max over R3-R6 of acc(R)/acc(R0) pooled over both cells and chunks.
+name: p4-h6-mt-c02
+envelope: E3
+track: B
+hypotheses: [H6]
+system: R0-R7
+dataset: mtlbmhqa
+cell: T4-h2-16k-nocross
+split: test
+seed: 100100
+entrypoint: opa.trackb.remedies:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  hf_dir: /cache/hf/pg19
+  split: test
+  seed0: 100000
+  prereg_tag: {"tag": "prereg-v2", "commit": "c8a0a5e910abf2da315bd00425f5c90d9e82600c"}
+  items_uri: gs://{bucket}/opa/data/mtlbmhqa/test/v2/T4-h2-16k-nocross/items.jsonl.gz
+  offset: 100
+  n_items: 100
+  C: 6
+  time_budget_s: 3200
+  item_margin_s: 90
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "300 s overhead + 100 items x 19.5 s (remedies pilot, 8K; a window is 6 origins whatever the item length) x 1.1 margin = 2445 s x 0.00034544 $/s = $0.84"
+estimate_usd: 0.84
+max_usd: 1.68                                # first-time job type: 2x the estimate; launcher timeout = floor(1.68 / 0.00034544) = 4,863 s
+max_api_usd: 0

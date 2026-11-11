@@ -1,0 +1,5 @@
+key,value,threshold,status,step,note
+V3_latest_own_origin_mass_fraction,0.3203655157020735,0.9,below G2 threshold,600,dev monitoring set; G2 is judged on fresh dev seeds after the stopping rule fires
+V3_rise_last_two_evaluations,0.013736242422906386,0.02,stopping rule fires (rise below the threshold),600,between steps 400 and 600
+V3_stopping_rule_fired_step,600.0,400.0,fired,600,first evaluation at or after the minimum step whose rise over 200 steps is below the threshold
+V3_steps_trained,600.0,2000.0,cap on optimizer steps,600,"stopping rule: minimum 400 steps, cap 2000"

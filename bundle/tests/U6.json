@@ -1,0 +1,60 @@
+{
+  "id": "U6",
+  "name": "Precision table: global coordinates fail at the predicted depths, re-anchored error stays flat to depth 40",
+  "passed": true,
+  "details": "Global coordinates (radius stored in the dtype, step distance from the stored radii, failure = relative error > 0.1 or radius >= 1): first failing depth bf16 4 / fp16 7 / fp32 16 (predicted 4 / 7 / 16; within one step: True); with real 32-dim coordinates [5, 8, 17]. Re-anchored (offsets stored in the dtype, composed in float32 in the LCA frame, 512 chains): error at depth 40 over depth 1 = 0.961 for bf16 (95% band 0.87-1.05, limit 2.0), flat: True.",
+  "run_id": "B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da",
+  "criterion": "first failing depth within one step of 4 / 7 / 16 (bf16 / fp16 / fp32); re-anchored bf16 error growth ratio depth 40 vs 1 <= 2.0",
+  "metrics": {
+    "fail_depths": {
+      "bfloat16": 4,
+      "float16": 7,
+      "float32": 16
+    },
+    "fail_depths_vector_m": {
+      "bfloat16": 5,
+      "float16": 8,
+      "float32": 17
+    },
+    "predicted_depths": {
+      "bfloat16": 4,
+      "float16": 7,
+      "float32": 16
+    },
+    "gap_to_prediction": {
+      "bfloat16": 0,
+      "float16": 0,
+      "float32": 0
+    },
+    "depth_within_one_step": true,
+    "reanchored_growth_ratio_bf16": 0.9608147107362868,
+    "reanchored_growth_ratio_ci95_bf16": [
+      0.8687861225820875,
+      1.0517867361919553
+    ],
+    "reanchored_growth_ratio": {
+      "bfloat16": 0.9608147107362868,
+      "float16": 1.0193952409556915,
+      "float32": 0.9996574875694567
+    },
+    "growth_limit": 2.0,
+    "reanchored_flat": true,
+    "fail_tolerance": 0.1,
+    "chains": 512,
+    "reanchored_error_depth1_bf16": 0.0004012486017985818,
+    "reanchored_error_last_bf16": 0.00038552555927044393
+  },
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false
+  }
+}

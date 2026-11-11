@@ -1,0 +1,36 @@
+name: p0-g0-s1-rep2
+envelope: E0
+track: A
+hypotheses:
+- G0
+system: S1
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 50
+  system: S1
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-lbmhqa+mtlbmhqa-3cells-dev-s0-20261107041041-2b257da-a07c/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 240 s start-up (vLLM 240) + S1 50 x 24.9 s [(34500 prefill tok / 1800 + 40 out tok / 120) x 1.25 + 0.5 s CPU] = 1484 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.513
+estimate_usd: 0.52
+max_usd: 1.03
+max_api_usd: 0
+notes:
+- 'harness determinism check: separate containers, same inputs'
+- fill the embedding run-id placeholder from the jobs they name (python jobs/make_p0_jobs.py --embed-run-id ... writes jobs/launch/)

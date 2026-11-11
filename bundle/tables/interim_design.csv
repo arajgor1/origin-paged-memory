@@ -1,0 +1,10 @@
+key,value,source
+h1_design_power_at_7_points,0.8,registered sample sizes: H1 sized for 7 points (owner)
+h1_design_power_at_5_points,0.52,registered sample sizes comment and Section 2b (power at the rule threshold)
+h7_reanchored_growth_limit,2.0,rules.yaml H7
+h3_r2_threshold,0.5,rules.yaml H3
+g2_own_origin_threshold,0.9,rules.yaml H4 / G2
+stopping_rule_rise_threshold,0.02,registration Section 4 (G2) stopping rule
+track_a_lambda,2.0,registration closure item 16 (not tuned)
+tost_margin_points,3.0,registration Section 6 (A2 vs A3)
+h8_ni_margin_points,-3.0,rules.yaml H8

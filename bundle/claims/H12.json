@@ -1,0 +1,10 @@
+{
+  "id": "H12",
+  "statement": "Origin-anchored attention makes fewer cross-thread mix-ups than standard attention",
+  "verdict": "not_run_gate_failed",
+  "results": [],
+  "figures": [],
+  "deviations": [],
+  "notes": "Not run: gate G2 failed.",
+  "failed_gate": "G2"
+}

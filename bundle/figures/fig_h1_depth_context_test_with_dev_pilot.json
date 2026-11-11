@@ -1,0 +1,10 @@
+{
+  "script": "code/interim_figures.py",
+  "inputs": [
+    {
+      "path": "tables/fig_h1_depth_context_test_with_dev_pilot.csv",
+      "sha256": "eeb89681b06fae26e63dcada6a6de7896c71a4dad83180a6fe2aad684becea4d"
+    }
+  ],
+  "created_at": "2026-11-08T08:30:27Z"
+}

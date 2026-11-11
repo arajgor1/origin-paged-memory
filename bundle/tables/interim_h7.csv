@@ -1,0 +1,5 @@
+key,value,run_id
+reanchored_error_growth_ratio_depth40_vs_depth1_bf16,0.9608147107362868,B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da
+global_fail_depth_bf16,4.0,B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da
+global_fail_depth_fp16,7.0,B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da
+global_fail_depth_fp32,16.0,B-units-none-u6-u8-h7-dev-s0-20261108002243-31bbd86-36da

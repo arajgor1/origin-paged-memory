@@ -1,0 +1,41 @@
+# Project configuration (version 3, 2026-11-07). Fill the gcp section with your own project and bucket before running jobs.
+gcp:
+  project_id: "YOUR_GCP_PROJECT"
+  bucket: "gs://YOUR_BUCKET"      # your bucket; everything goes under the opa/ prefix (storage only)
+  region: "us-central1"
+
+modal:
+  app_name: "opa-experiments"
+  environment: "main"
+  # Tip: set a workspace budget in the Modal dashboard as a hard spending backstop.
+  gpu_default: "L4"                   # 24 GB; inference, embeddings, LoRA on Qwen3-4B
+  gpu_small: "T4"                     # 16 GB; smoke tests and small jobs
+  gpu_needs_request: ["A100-40GB", "A100-80GB", "H100", "B200"]   # larger GPUs; not used by default
+  secrets_required: ["opa-gcp"]
+  secrets_optional: ["opa-hf"]        # all v3 models are ungated; a token only raises download rate limits
+  # opa-anthropic is not used in v3: no experiment calls the Anthropic API
+
+models:
+  subject: "Qwen/Qwen3-4B-Instruct-2507"            # Tracks A, B and C (full attention + standard RoPE in all 36 layers)
+  track_a_replication: "google/gemma-4-E4B-it"      # Track A only, used unchanged, text only
+  embedder: "microsoft/harrier-oss-v1-0.6b"         # helper for every system; query prefix "Instruct: <task>\nQuery: <text>"
+  embedder_backup: "Qwen/Qwen3-Embedding-4B"        # P0 embedder check and P5 robustness check
+  lexical: "bm25"
+  track_b_fallback: "Qwen/Qwen2.5-1.5B-Instruct"    # only if 4B training is measured too slow for the budget; log the switch
+  # Removed in v3: claude-sonnet-5-5 (Track A API), Qwen2.5-7B-Instruct, meta-llama/Llama-3.2-1B-Instruct, bge-small
+
+model_revisions:                      # Hub commit SHAs pinned on 2026-11-07 (read by opa.tracks.track_a.config.pinned_revision)
+  "Qwen/Qwen3-4B-Instruct-2507": "cdbee75f17c01a7cc42f958dc650907174af0554"
+  "google/gemma-4-E4B-it": "4ecc2ba63bcac23ba4a767fc87025b1450f84c9c"
+  "microsoft/harrier-oss-v1-0.6b": "f9b9dc8d367d443f2479d27aa5d8d2850c0774ee"
+  "Qwen/Qwen3-Embedding-4B": "5cf2132abc99cad020ac570b19d031efec650f2b"
+
+defaults:
+  temperature: 0
+  origin_tokens_B: 512
+  context_lengths: [8192, 16384, 32768]   # primary cells at 32K; no 128K or 512K in v3
+  max_train_seq_len: 4096
+
+paths:
+  local_data: "../opa_data"          # generated datasets (outside the repo; mirrored to gs://<bucket>/opa/data/)
+  tokenizer: "Qwen/Qwen3-4B-Instruct-2507"   # token counting for origins and lengths

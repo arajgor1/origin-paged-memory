@@ -1,0 +1,6 @@
+key,panel,split,threads_T,metric,value,ci_lo,ci_hi,n,source
+test|T4|agent_em_diff,agent,test,4,A2_minus_A1_EM_points,0.40160642570281124,-2.0080321285140563,3.21285140562249,249,tables/p2_contrasts_test.csv#row=A2_vs_A1_agent_mtlbmhqa_32k_primary_cross
+dev|T4|agent_em_diff,agent,dev,4,A2_minus_A1_EM_points,4.0,-4.0,12.0,50,tables/p2_dev_check/p2_contrasts_dev.csv#row=A2_vs_A1_agent_mtlbmhqa_32k_primary_cross
+dev|T4|distortion_ratio,distortion,dev,4,euclidean_over_hyperbolic_tree_distortion,1.3611807696200695,,,100,tables/h5_distortion_dev.csv#row=T4-h3-32k-cross_v2_gold_clampnone
+dev|T8|distortion_ratio,distortion,dev,8,euclidean_over_hyperbolic_tree_distortion,1.2913294617730453,,,100,tables/h5_distortion_dev.csv#row=T8-h3-32k-cross_v2_gold_clampnone
+dev|T16|distortion_ratio,distortion,dev,16,euclidean_over_hyperbolic_tree_distortion,1.2510804160393405,,,100,tables/h5_distortion_dev.csv#row=T16-h3-32k-cross_v2_gold_clampnone

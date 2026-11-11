@@ -1,0 +1,43 @@
+name: p0-detprobe-bi-r1
+envelope: E0
+track: A
+hypotheses:
+- P0-pilot-check
+system: S1
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 10
+  offset: 0
+  system: S1
+  embedder: precomputed:gs://{bucket}/opa/runs/EMBED_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+    env:
+      VLLM_BATCH_INVARIANT: '1'
+    extra_args:
+    - --attention-backend
+    - FLASH_ATTN
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '180 s vLLM start (measured) + 10 items x 24.8 s (S1: 12.4 s measured at 8 workers x 2 assumed batch-invariant slowdown) = 428 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.148'
+estimate_usd: 0.15
+max_usd: 0.3
+max_api_usd: 0
+notes:
+- 'determinism probe: separate container, seed 0, same 10 items as the G0 attempt-1 S1 repeats (first 10 of the 50)'
+- max_usd = 2x the estimate, which still covers a 4x slowdown
+- fill the embedding run-id placeholder from p0-embed-dev (S1 itself does not use the vectors)

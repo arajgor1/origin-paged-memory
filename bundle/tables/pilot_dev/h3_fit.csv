@@ -1,0 +1,10 @@
+key,value,n,detail,split,run_ids,oracle
+R2_predicted_vs_observed_success,-7.38174273858921,150,"identity-line R2, 10 equal-count bins",dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+R2_fitted_line,0.004149377593360974,150,squared Pearson r of bin means,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+mean_predicted,0.9933333333333333,150,,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+mean_observed,0.7133333333333334,150,,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+logistic_intercept,0.0,76,se=nan p=nan converged=False,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+logistic_h_late,0.0,76,se=nan p=nan converged=False,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+logistic_gamma_s,0.0,76,se=nan p=nan converged=False,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+logistic_gamma_g,0.0,76,se=nan p=nan converged=False,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false
+phi_skeleton_miss_graph_miss,0.2328566559543064,76,per late-bound hop,dev,A-S1+S2+S4+S8+S11+S18-lbmhqa-late-h2-32k-a0-dev-s0-20261107154535-a0c95f6-4168;A-S11-lbmhqa-forward-h2-32k-a0+mixed-h2-32k-a0-dev-s0-20261107163640-1aaa09a-3a1a,false

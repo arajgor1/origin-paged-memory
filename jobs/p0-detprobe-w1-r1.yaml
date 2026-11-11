@@ -1,0 +1,39 @@
+name: p0-detprobe-w1-r1
+envelope: E0
+track: A
+hypotheses:
+- P0-pilot-check
+system: S1
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+  n_items: 10
+  offset: 0
+  system: S1
+  embedder: precomputed:gs://{bucket}/opa/runs/EMBED_RUN_ID/embeddings.npz
+  workers: 1
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+    prefix_caching: false
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: '180 s vLLM start (measured) + 10 items x 14.0 s (S1: 14.0 s assumed at 1 worker, prefix caching off) = 320 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.111'
+estimate_usd: 0.12
+max_usd: 0.23
+max_api_usd: 0
+notes:
+- 'determinism probe: separate container, seed 0, same 10 items as the G0 attempt-1 S1 repeats (first 10 of the 50)'
+- 'no batching and no prefix caching: tests whether concurrency causes the run-to-run spread'
+- fill the embedding run-id placeholder from p0-embed-dev (S1 itself does not use the vectors)

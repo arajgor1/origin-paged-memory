@@ -1,0 +1,49 @@
+name: p0-micropilot-g3
+envelope: E0
+track: A
+hypotheses:
+- P0-unit-costs
+system: S2+S3+S4+S7+S9+S14+S17
+dataset: lbmhqa+mtlbmhqa
+cell: late-h3-32k-a0+T8-h3-32k-cross
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+    n_items: 5
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/dev/v2/T8-h3-32k-cross/items.jsonl.gz
+    n_items: 5
+  systems:
+  - S2
+  - S3
+  - S4
+  - S7
+  - S9
+  - S14
+  - S17
+  embedder: precomputed:gs://{bucket}/opa/runs/EMBED_RUN_ID/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/SKELETON_RUN_ID/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 285 s start-up (vLLM 240 + live fallback embedder 45) + S2 10 x 2.4 s [(4800 prefill tok / 4000 + 40 out tok / 120) x 1.25 + 0.5 s CPU] + S3 10 x 17.3 s [(42000 prefill tok / 4000 + 350 out tok / 120) x 1.25 + 0.5 s CPU] + S4 10 x 34.9 s [(50000 prefill tok / 4000 + 1800 out tok / 120) x 1.25 + 0.5 s CPU] + S7 10 x 50.0 s [(62000 prefill tok / 4000 + 2800 out tok / 120) x 1.25 + 1.5 s CPU] + S9 10 x 50.0 s [(62000 prefill tok / 4000 + 2800 out tok / 120) x 1.25 + 1.5 s CPU] + S14 10 x 34.4 s [(42000 prefill tok / 4000 + 1900 out tok / 120) x 1.25 + 1.5 s CPU] + S17 10 x 34.4 s [(42000 prefill tok / 4000 + 1900 out tok / 120) x 1.25 + 1.5 s CPU] = 2520 s x (L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s) = $0.870
+estimate_usd: 0.88
+max_usd: 1.75
+max_api_usd: 0
+notes:
+- '10 dev items per system: 5 LB late h3 32K + 5 MT T8 h3 32K cross; systems: S2, S3, S4, S7, S9, S14, S17; outputs under <system>/r0/'
+- fill the embedding run-id placeholder and the skeleton run-id placeholder from the jobs they name (python jobs/make_p0_jobs.py --embed-run-id ... writes jobs/launch/)

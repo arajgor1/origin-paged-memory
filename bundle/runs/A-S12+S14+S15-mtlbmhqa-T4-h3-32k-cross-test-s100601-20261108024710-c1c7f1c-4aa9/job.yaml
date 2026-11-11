@@ -1,0 +1,47 @@
+name: p2-h5-mt-c02
+envelope: E2
+track: A
+hypotheses:
+- H5
+system: S12+S14+S15
+dataset: mtlbmhqa
+cell: T4-h3-32k-cross
+split: test
+seed: 100601
+entrypoint: opa.tracks.track_a:run_system
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/mtlbmhqa/test/v2/T4-h3-32k-cross/items.jsonl.gz
+    n_items: 83
+    offset: 83
+  systems:
+  - S12
+  - S14
+  - S15
+  embedder: precomputed:gs://{bucket}/opa/runs/A-embed-mtlbmhqa-T4-h3-32k-cross-test-s100401-20261108002207-c5aeb83-51bf/embeddings.npz
+  workers: 8
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+  opts:
+    lambda: 2.0
+  skeleton_llm_uri: gs://{bucket}/opa/runs/A-sllm-mtlbmhqa-T4-h3-32k-cross-test-s100501-20261108002215-bb73e0a-56b5/skeleton_llm
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 83 items x (S12+S14+S15 at workers-8 seconds) x $0.000345/s + $0.066
+  start-up = $2.101 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32
+  GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $4.201
+estimate_usd: 2.11
+max_usd: 4.21
+max_api_usd: 0
+notes:
+- items 83-165; S15 only on the first n_tost=191 items
+- 'package line: H5 agent arms (delta 5) + TOST on MT T4 default M [delta 5, n=249,
+  TOST 191]'

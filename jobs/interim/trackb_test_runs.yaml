@@ -1,0 +1,14 @@
+h4-v3:
+- B-V3-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108055405-deba7e6-2d2b
+- B-V3-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108055407-9088267-9eba
+h4-b1:
+- B-B1-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108064554-978714a-fb66
+- B-B1-mtlbmhqa-archive-archive64-T8-test-test-s101226-20261108064556-f6b1dec-f108
+h6-lb:
+- B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100000-20261108055410-cfdc508-3099
+- B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100100-20261108055412-55c54c2-1591
+h6-mt:
+- B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100000-20261108055415-97cbc04-378b
+- B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100100-20261108055417-2edcd59-cdb5
+trainfree:
+- B-trainfree-mtlbmhqa-archive-archive64-T8-test-test-s100000-20261108063140-554da88-e832

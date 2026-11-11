@@ -1,0 +1,3 @@
+key,job,status,reason,handling,replaced_by,attempt,max_attempts
+A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108043839-48e13a3-87a9,p2-h1-lb-c07,failed,upload of a run file to storage failed with HTTP 412,replaced by retry 2 of 3 allowed (run A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108055403-10a14e2-6c9a); the retry's records are used,A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108055403-10a14e2-6c9a,1,3
+B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108022824-e36fdc0-201d,p4-v3-c01,failed,upload of a run file to storage failed with HTTP 412,failed (pre-fix code: the resume path was unresolved); excluded; V3 chunk 1 is the later run on the fixed deploy,B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261108031640-6c44911-9560,1,3

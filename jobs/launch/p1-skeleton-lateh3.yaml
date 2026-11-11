@@ -1,0 +1,38 @@
+name: p1-skeleton-lateh3
+envelope: E1
+track: A
+hypotheses:
+- P1-prep
+system: sllm
+dataset: lbmhqa
+cell: late-h3-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:build_skeletons
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h3-32k-a0/items.jsonl.gz
+    n_items: 50
+  workers: 12
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 50 items (late-h3-32k-a0 x 50) x $0.028/item (rebuilt builder, sllm-v2) + $0.066 start-up (190 s x $0.000346/s); max_usd = 2 x that = $2.932 = $1.466 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s)
+estimate_usd: 1.47
+max_usd: 2.94
+max_api_usd: 0
+notes:
+- the run id of this job replaces the late-h3 skeleton placeholder in p1-g0-s18-h3-recheck (and in p1-lb-late-h3 if h = 3)
+- REBUILD with the fixed builder (prompt_version sllm-v2); no old skeleton run is reused
+- 'ESTIMATE (untested on Modal): $0.028/item + $0.066 start-up; max_usd = 2 x that; replace with the measured cost after the first rebuild'
+- run_system reads ONE skeleton directory (skeleton_llm_uri is a single string), so each directory holds every item its readers need
+- 'headroom frozen at generation: E1 5.65, E2 22.00; envelope assigned greedily in launch order'

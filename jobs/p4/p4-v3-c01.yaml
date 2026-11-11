@@ -1,0 +1,40 @@
+# P4 Step 2 (PLAN_V3 6a): V3 chunk 1, optimizer steps 400 -> 600, resumed from the checkpoint of the learning-curve run (step400). One evaluation (monitoring set, dev seeds 2000-2063)
+# at step 600; saves step600/checkpoint.pt and adapter.pt. No placeholder: chunk 1 resumes from the learning-curve run. Afterwards apply rule 4 with --decide.
+name: p4-v3-c01
+envelope: E4
+track: B
+hypotheses: [H4, G2]
+system: V3
+dataset: mtlbmhqa-archive
+cell: archive64-T8
+split: dev
+seed: 0
+entrypoint: opa.trackb.train:main
+args:
+  arm: V3
+  model: Qwen/Qwen3-4B-Instruct-2507
+  filler: pg19
+  hf_dir: /cache/hf/pg19
+  seed: 0
+  headers: true
+  eval_every: 0
+  monitor: {"attrib": 64, "passkey": 32, "probe": 3}
+  max_opt_steps: 600
+  eval_at_steps: [600]
+  save_checkpoint_at: [600]
+  resume_from: gs://{bucket}/opa/models/B-V3-mtlbmhqa-archive-archive64-T8-dev-s0-20261107223205-86f471f-64ea/step400/checkpoint.pt
+  skip_resume_eval: true
+  time_budget_s: 9000
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16                             # request; the launcher bills CPU and memory at the limits (2x the request)
+# Rate from the human-owned rate card (verified 2026-11-06), USD per second, CPU and memory at their limits:
+#   L4 0.000222 + 4.0 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.00034544 /s (= $1.24/h)
+estimate_formula: "300 s load + 60 s preflight (guessed) + 200 steps x 22.75 s (measured) + 240 s evaluation (measured) = 5150 s x 0.00034544 $/s = $1.78"
+estimate_usd: 1.78
+max_usd: 3.56                                # 2x the estimate; launcher timeout = floor(3.56 / 0.00034544) = 10,305 s
+max_api_usd: 0

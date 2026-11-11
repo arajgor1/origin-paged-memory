@@ -1,0 +1,38 @@
+name: h3cells-sk-late-h2
+envelope: E1
+track: A
+hypotheses:
+- H3
+system: sllm
+dataset: lbmhqa
+cell: late-h2-32k-a0
+split: dev
+seed: 0
+entrypoint: opa.tracks.track_a:build_skeletons
+args:
+  items_uri:
+  - uri: gs://{bucket}/opa/data/lbmhqa/dev/v2/late-h2-32k-a0/items.jsonl.gz
+    n_items: 30
+    offset: 50
+  workers: 24
+  model:
+    kind: open_local
+    name: qwen
+    max_model_len: 40960
+models:
+  agent_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  image: vllm
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 30 items (late-h2-32k-a0, items 50-79) x $0.026/item (sllm-v2 rebuilt builder, workers 24) + $0.066 start-up = $0.846 (container rate L4 0.000222 + 4 cores(limit) x 0.0000131 + 32 GiB(limit) x 0.00000222 = 0.000345 $/s); max_usd = 2 x the estimate = $1.692
+estimate_usd: 0.85
+max_usd: 1.7
+max_api_usd: 0
+notes:
+- the run id of this job replaces the late-h2 skeleton placeholder in h3cells-late-h2-*
+- REBUILD with the fixed builder (prompt_version sllm-v2)
+- estimate = 30 x $0.026 + $0.066; max_usd = 2 x the estimate
+- 'headroom frozen at generation: E1 1.92, E2 8.71; envelope assigned greedily in launch order'

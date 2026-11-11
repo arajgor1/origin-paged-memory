@@ -1,0 +1,17 @@
+{
+  "id": "G4",
+  "passed": true,
+  "decided_at": "2026-11-08T08:30:32Z",
+  "criteria": [
+    {
+      "name": "tools/verify_bundle.py checks (D1-D13) on a scratch copy of the assembled bundle",
+      "threshold": "BUNDLE VERIFIED, 0 failures",
+      "observed": "BUNDLE VERIFIED, 0 failures (scratch copy of the bundle, 2026-11-08T08:30:32Z)",
+      "met": true
+    }
+  ],
+  "evidence": [
+    "tools/verify_bundle.py"
+  ],
+  "notes": "Paper-ready: the verifier's checks pass on the assembled bundle."
+}

@@ -1,0 +1,68 @@
+{
+  "id": "U2",
+  "name": "M2 virtual slots in archival order reproduce the unpatched model",
+  "passed": true,
+  "details": "4 origins (archive ids [3, 9, 14, 40]) in archival order in contiguous slots 0..3 of B=128 plus a 16-token tail; M2 position ids equal 0..T-1: True; max |logit diff| vs the unpatched model = 0.0 (same kernel; criterion exact 0). Negative control (archival M1 positions, non-uniform gaps) changes the logits by 6.410e+00 (> 0). Ungated: vs transformers' stock sdpa kernel 0.00e+00. bfloat16 pass (parameters cast in place, OAA parameters and rotary buffers fp32): pass, see rec['bf16'].",
+  "run_id": "B-units-none-u1-u5-dev-s0-20261107044615-d1a2fcd-924d",
+  "criterion": "logits identical (max abs diff == 0, same attention kernel)",
+  "metrics": {
+    "max_abs_logit_diff": 0.0,
+    "negative_control_M1_max_abs_logit_diff": 6.410086631774902,
+    "positions_equal_arange": true,
+    "T": 528,
+    "B": 128,
+    "archive_ids": [
+      3,
+      9,
+      14,
+      40
+    ],
+    "slots": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.0
+  },
+  "seconds": 3.162,
+  "env": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "dtype": "torch.float32",
+    "device": "cuda:0",
+    "gpu_name": "NVIDIA L4",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "numpy": "2.4.6",
+    "python": "3.11.12",
+    "cuda": "13.2",
+    "attn_implementation": "opa_oaa",
+    "tf32_matmul": false,
+    "gpu_mem_after_load_gib": 15.08
+  },
+  "bf16": {
+    "dtype": "bfloat16",
+    "passed": true,
+    "metrics": {
+      "max_abs_logit_diff": 0.0,
+      "negative_control_M1_max_abs_logit_diff": 6.296875,
+      "positions_equal_arange": true,
+      "T": 528,
+      "B": 128,
+      "archive_ids": [
+        3,
+        9,
+        14,
+        40
+      ],
+      "slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "reported_vs_stock_sdpa_kernel_max_abs_diff": 0.375
+    },
+    "details": "4 origins (archive ids [3, 9, 14, 40]) in archival order in contiguous slots 0..3 of B=128 plus a 16-token tail; M2 position ids equal 0..T-1: True; max |logit diff| vs the unpatched model = 0.0 (same kernel; criterion exact 0). Negative control (archival M1 positions, non-uniform gaps) changes the logits by 6.297e+00 (> 0). Ungated: vs transformers' stock sdpa kernel 3.75e-01."
+  }
+}

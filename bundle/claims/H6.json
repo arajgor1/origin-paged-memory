@@ -1,0 +1,79 @@
+{
+  "id": "H6",
+  "statement": "Red-dot prefix and graph-parent co-encoding close most of the contextual-dependence gap",
+  "verdict": "refuted",
+  "results": [
+    {
+      "key": "R5_vs_R1_accuracy",
+      "level": "model",
+      "value": 0.5,
+      "ci95": [
+        -1.5,
+        2.5
+      ],
+      "n": 400,
+      "p_raw": 0.8145294189453125,
+      "p_holm": 1.0,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100000-20261108055410-cfdc508-3099",
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100100-20261108055412-55c54c2-1591",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100000-20261108055415-97cbc04-378b",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100100-20261108055417-2edcd59-cdb5"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=R5_vs_R1_accuracy",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    },
+    {
+      "key": "best_remedy_recovery_fraction",
+      "level": "model",
+      "value": 0.951923076923077,
+      "ci95": [
+        0.9087983202945237,
+        1.0163412086145933
+      ],
+      "n": 400,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100000-20261108055410-cfdc508-3099",
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100100-20261108055412-55c54c2-1591",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100000-20261108055415-97cbc04-378b",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100100-20261108055417-2edcd59-cdb5"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=best_remedy_recovery_fraction",
+      "test": "measurement: acc(R)/acc(R0), percentile bootstrap of the maximum over items (10,000 resamples)"
+    },
+    {
+      "key": "best_remedy_recovery_fraction_incl_oracle",
+      "level": "model",
+      "value": 0.967948717948718,
+      "ci95": [
+        0.9250814332247557,
+        1.0288461538461537
+      ],
+      "n": 400,
+      "p_raw": null,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100000-20261108055410-cfdc508-3099",
+        "B-R0-R7-lbmhqa-late-h2-16k-a0-test-s100100-20261108055412-55c54c2-1591",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100000-20261108055415-97cbc04-378b",
+        "B-R0-R7-mtlbmhqa-T4-h2-16k-nocross-test-s100100-20261108055417-2edcd59-cdb5"
+      ],
+      "table_ref": "tables/trackb/trackb_contrasts_test.csv#row=best_remedy_recovery_fraction_incl_oracle",
+      "test": "measurement: acc(R)/acc(R0), percentile bootstrap of the maximum over items (10,000 resamples)",
+      "description": "oracle upper bound (R2oracle, R7oracle included); reported separately, labelled oracle"
+    }
+  ],
+  "figures": [],
+  "deviations": [
+    "DEV-PLAN-REV5"
+  ],
+  "notes": "Test data: LB-MHQA late h=2 and MT-LB-MHQA T4 h=2 at 16K (registration closure item 18)."
+}

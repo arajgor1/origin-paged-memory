@@ -1,0 +1,39 @@
+{
+  "id": "H3",
+  "statement": "Measured coverage predicts success as gamma_eff^h_late, and graph edges add recall beyond skeletons",
+  "verdict": "refuted",
+  "results": [
+    {
+      "key": "S11_vs_S8_late_bound",
+      "level": "agent",
+      "value": -0.9884678747940692,
+      "ci95": [
+        -2.800658978583196,
+        0.8237232289950577
+      ],
+      "n": 607,
+      "p_raw": 0.36159460805356514,
+      "p_holm": 1.0,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100200-20261108022822-fb3701f-b7ca",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100201-20261108031643-977b8c7-5518",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100202-20261108041022-2bfe0ed-7413",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100203-20261108043835-751540b-1c87",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100204-20261108043837-7433a0d-8934",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100205-20261108031645-9346620-a29c",
+        "A-S11+S2+S8-lbmhqa-late-h2-32k-a0-test-s100206-20261108055403-10a14e2-6c9a"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=S11_vs_S8_late_bound",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    }
+  ],
+  "figures": [],
+  "deviations": [
+    "DEV-H3-R2",
+    "DEV-PLAN-REV3",
+    "DEV-G1-OVERRIDE"
+  ],
+  "notes": "H3 cannot be supported: the R2 leaf has no result (not testable at 32K, DEV-H3-R2). The verdict follows the S11 vs S8 leg under the frozen all_of rule."
+}

@@ -1,0 +1,2 @@
+# Keep the hashed result bundle byte-exact on every checkout (bundle/manifest.json lists SHA-256 hashes).
+bundle/** -text

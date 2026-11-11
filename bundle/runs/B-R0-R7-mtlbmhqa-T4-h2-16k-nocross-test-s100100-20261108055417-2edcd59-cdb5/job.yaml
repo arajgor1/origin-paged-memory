@@ -1,0 +1,38 @@
+name: p4-h6-mt-c02
+envelope: E3
+track: B
+hypotheses:
+- H6
+system: R0-R7
+dataset: mtlbmhqa
+cell: T4-h2-16k-nocross
+split: test
+seed: 100100
+entrypoint: opa.trackb.remedies:main
+args:
+  model: Qwen/Qwen3-4B-Instruct-2507
+  hf_dir: /cache/hf/pg19
+  split: test
+  seed0: 100000
+  prereg_tag:
+    tag: prereg-v2
+    commit: c8a0a5e910abf2da315bd00425f5c90d9e82600c
+  items_uri: gs://{bucket}/opa/data/mtlbmhqa/test/v2/T4-h2-16k-nocross/items.jsonl.gz
+  offset: 100
+  n_items: 100
+  C: 6
+  time_budget_s: 3200
+  item_margin_s: 90
+models:
+  track_b_model: Qwen/Qwen3-4B-Instruct-2507
+compute:
+  kind: gpu
+  gpu: L4
+  cpu: 2.0
+  memory_gib: 16
+estimate_formula: 300 s overhead + 100 items x 19.5 s (remedies pilot, 8K; a window
+  is 6 origins whatever the item length) x 1.1 margin = 2445 s x 0.00034544 $/s =
+  $0.84
+estimate_usd: 0.84
+max_usd: 1.68
+max_api_usd: 0

@@ -1,0 +1,83 @@
+{
+  "id": "H5",
+  "statement": "Hyperbolic distance beats Euclidean distance on the same tree",
+  "verdict": "inconclusive",
+  "results": [
+    {
+      "key": "A2_vs_A1_agent_mtlbmhqa_32k_primary_cross",
+      "level": "agent",
+      "value": 0.40160642570281124,
+      "ci95": [
+        -2.0080321285140563,
+        3.21285140562249
+      ],
+      "n": 249,
+      "p_raw": 1.0,
+      "p_holm": 1.0,
+      "split": "test",
+      "primary": true,
+      "run_ids": [
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100600-20261108022819-09a5a49-8644",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100601-20261108024710-c1c7f1c-4aa9",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100602-20261108024713-1bae79e-276b",
+        "A-S12+S14-mtlbmhqa-T4-h3-32k-cross-test-s100603-20261108024716-fe3492b-9eba"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=A2_vs_A1_agent_mtlbmhqa_32k_primary_cross",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + exact McNemar"
+    },
+    {
+      "key": "A2_vs_A3_agent_equivalence",
+      "level": "agent",
+      "value": 0.0,
+      "ci95": [
+        -2.6178010471204187,
+        2.6178010471204187
+      ],
+      "n": 191,
+      "p_raw": 0.02954556761450533,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100600-20261108022819-09a5a49-8644",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100601-20261108024710-c1c7f1c-4aa9",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100602-20261108024713-1bae79e-276b",
+        "A-S12+S14-mtlbmhqa-T4-h3-32k-cross-test-s100603-20261108024716-fe3492b-9eba"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=A2_vs_A3_agent_equivalence",
+      "test": "paired bootstrap 95% CI (10,000 resamples); equivalence: TOST +-3 points, Tango score test, p_raw = max of the two one-sided p",
+      "description": "TOST equivalence, margin 3 points; reported, no verdict"
+    },
+    {
+      "key": "A2_vs_A1_pages_read_before_gold_hit",
+      "level": "agent",
+      "value": -0.15261044176706828,
+      "ci95": [
+        -0.46184738955823296,
+        0.0642570281124498
+      ],
+      "n": 249,
+      "p_raw": 0.6345939543014978,
+      "p_holm": null,
+      "split": "test",
+      "primary": false,
+      "run_ids": [
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100600-20261108022819-09a5a49-8644",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100601-20261108024710-c1c7f1c-4aa9",
+        "A-S12+S14+S15-mtlbmhqa-T4-h3-32k-cross-test-s100602-20261108024713-1bae79e-276b",
+        "A-S12+S14-mtlbmhqa-T4-h3-32k-cross-test-s100603-20261108024716-fe3492b-9eba"
+      ],
+      "table_ref": "tables/p2_contrasts_test.csv#row=A2_vs_A1_pages_read_before_gold_hit",
+      "test": "paired bootstrap 95% CI (10,000 resamples) + Wilcoxon signed-rank; reported, no verdict, not Holm-adjusted",
+      "description": "pages read before the first gold page; reported, no verdict"
+    }
+  ],
+  "figures": [
+    "figures/fig_h5_thread_depth_test_with_dev_pilot.png"
+  ],
+  "deviations": [
+    "DEV-PLAN-REV2",
+    "DEV-PLAN-REV5"
+  ],
+  "notes": "Agent arm on MT-LB-MHQA T4 h=3 cross, 32K. The model-level arm was not run (G2 failed), so the any_of rule leaves a refuted agent arm inconclusive."
+}
