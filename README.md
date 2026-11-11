@@ -1,5 +1,7 @@
 # Origin-Paged Memory: code, pre-registration and verified results
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24123975.svg)](https://doi.org/10.5281/zenodo.24123975)
+
 This repository holds the code, job specifications, pre-registration, frozen verdict rules and the verified final result bundle behind the preprint *Origin-Paged Memory: Treating Language-Model Context as Virtual Memory* (Aaditya Rajgor, 2026).
 
 **Preprint:** link to follow.
@@ -60,7 +62,7 @@ This is a public copy of the result bundle, with internal and account-specific m
 
 ## Citation
 
-See [`CITATION.cff`](CITATION.cff). A DOI will be added when the release is archived.
+See [`CITATION.cff`](CITATION.cff). Version 1.0.0 is archived on Zenodo as [10.5281/zenodo.24123975](https://doi.org/10.5281/zenodo.24123975); to cite all versions, use the concept DOI [10.5281/zenodo.24123974](https://doi.org/10.5281/zenodo.24123974).
 
 ## License
 
