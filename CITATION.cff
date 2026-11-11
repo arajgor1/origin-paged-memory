@@ -7,8 +7,8 @@ authors:
     given-names: "Aaditya"
     affiliation: "Independent Researcher"
     orcid: "https://orcid.org/0009-0006-3009-5559"
-version: "1.0.0"
-date-released: "2026-11-10"
+version: "1.0.1"
+date-released: "2026-11-11"
 license: Apache-2.0
 repository-code: "https://github.com/arajgor1/origin-paged-memory"
 abstract: "Code, job specifications, pre-registration (tag prereg-v2), frozen verdict rules, the verified final result bundle (claims H1-H13, gates G0-G4, tables, figures, deviations and run index) and the design documents for the Origin-Paged Attention study on Qwen3-4B-Instruct-2507."

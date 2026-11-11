@@ -1,6 +1,6 @@
 {
   "upload_type": "software",
-  "title": "Origin-Paged Memory: code, pre-registration and verified results (v1.0.0)",
+  "title": "Origin-Paged Memory: code, pre-registration and verified results (v1.0.1)",
   "creators": [
     {
       "name": "Rajgor, Aaditya",
@@ -9,7 +9,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "long-context language models",
     "agent memory",
