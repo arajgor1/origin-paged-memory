@@ -8,7 +8,7 @@
       "orcid": "0009-0006-3009-5559"
     }
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "version": "1.0.0",
   "keywords": [
     "long-context language models",

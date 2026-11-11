@@ -64,4 +64,4 @@ See [`CITATION.cff`](CITATION.cff). A DOI will be added when the release is arch
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE).
+Apache License 2.0. See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
