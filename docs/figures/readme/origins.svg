@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300" role="img" aria-labelledby="t d">
+  <title id="t">Flat context versus origins</title>
+  <desc id="d">Top: a standard context window is one flat tape of positions 0 to 32,767. Bottom: OPA splits the same tokens into 64 origins of 512 tokens, each restarting at position 0, with a red dot at the end of each origin that conditions the next one.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#cf222e"/>
+    </marker>
+    <linearGradient id="tape" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#eaeef2"/>
+      <stop offset="1" stop-color="#d0d7de"/>
+    </linearGradient>
+  </defs>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1f2328; }
+    .h { font-size: 15px; font-weight: 600; }
+    .s { font-size: 12px; fill: #59636e; }
+    .b { font-size: 13px; font-weight: 600; }
+    .box { fill: #ddf4ff; stroke: #54aeff; stroke-width: 1.5; }
+    .dot { fill: #cf222e; }
+    .link { stroke: #cf222e; stroke-width: 1.6; fill: none; }
+  </style>
+
+  <!-- card -->
+  <rect x="0.5" y="0.5" width="899" height="299" rx="10" fill="#ffffff" stroke="#d0d7de"/>
+
+  <!-- Row A: flat tape -->
+  <text class="h" x="30" y="32">A standard context window: one flat tape</text>
+  <rect x="30" y="44" width="840" height="30" rx="4" fill="url(#tape)" stroke="#8c959f"/>
+  <text class="s" x="450" y="64" text-anchor="middle">positions 0, 1, 2, … 32,767: one coordinate system for every token, distances up to 32K</text>
+  <text class="s" x="30" y="90">0</text>
+  <text class="s" x="870" y="90" text-anchor="end">32,767</text>
+
+  <!-- Row B: origins -->
+  <text class="h" x="30" y="126">OPA: the same 32K tokens as 64 origins of B = 512 tokens, each in a fresh positional frame</text>
+
+  <!-- origin 0 -->
+  <rect class="box" x="30" y="140" width="135" height="64" rx="6"/>
+  <rect class="dot" x="151" y="140" width="14" height="64" rx="0"/>
+  <text class="b" x="90" y="166" text-anchor="middle">origin 0</text>
+  <text class="s" x="90" y="186" text-anchor="middle">positions 0 … 511</text>
+
+  <!-- origin 1 -->
+  <rect class="box" x="182" y="140" width="135" height="64" rx="6"/>
+  <rect class="dot" x="303" y="140" width="14" height="64"/>
+  <text class="b" x="242" y="166" text-anchor="middle">origin 1</text>
+  <text class="s" x="242" y="186" text-anchor="middle">positions 0 … 511</text>
+
+  <!-- origin 2 -->
+  <rect class="box" x="334" y="140" width="135" height="64" rx="6"/>
+  <rect class="dot" x="455" y="140" width="14" height="64"/>
+  <text class="b" x="394" y="166" text-anchor="middle">origin 2</text>
+  <text class="s" x="394" y="186" text-anchor="middle">positions 0 … 511</text>
+
+  <!-- ellipsis -->
+  <text class="b" x="526" y="178" text-anchor="middle" style="font-size:22px">…</text>
+
+  <!-- origin 62 -->
+  <rect class="box" x="583" y="140" width="135" height="64" rx="6"/>
+  <rect class="dot" x="704" y="140" width="14" height="64"/>
+  <text class="b" x="643" y="166" text-anchor="middle">origin 62</text>
+  <text class="s" x="643" y="186" text-anchor="middle">positions 0 … 511</text>
+
+  <!-- origin 63 -->
+  <rect class="box" x="735" y="140" width="135" height="64" rx="6"/>
+  <rect class="dot" x="856" y="140" width="14" height="64"/>
+  <text class="b" x="795" y="166" text-anchor="middle">origin 63</text>
+  <text class="s" x="795" y="186" text-anchor="middle">positions 0 … 511</text>
+
+  <!-- red-dot links: from the red dot of origin c to the start of origin c+1 -->
+  <path class="link" d="M158,204 C158,226 189,226 189,206" marker-end="url(#arr)"/>
+  <path class="link" d="M310,204 C310,226 341,226 341,206" marker-end="url(#arr)"/>
+  <path class="link" d="M462,204 C462,226 500,226 500,206" stroke-dasharray="4 3"/>
+  <path class="link" d="M552,206 C552,226 590,226 590,206" marker-end="url(#arr)" stroke-dasharray="4 3"/>
+  <path class="link" d="M711,204 C711,226 742,226 742,206" marker-end="url(#arr)"/>
+
+  <!-- legend -->
+  <rect class="dot" x="30" y="246" width="14" height="14"/>
+  <text class="s" x="52" y="258"><tspan style="fill:#1f2328;font-weight:600">red dot</tspan>: the last few tokens of an origin. It marks where the next origin begins and carries context across the boundary.</text>
+  <rect class="box" x="30" y="270" width="14" height="14" rx="2"/>
+  <text class="s" x="52" y="282"><tspan style="fill:#1f2328;font-weight:600">origin</tspan>: an immutable 512-token page. Positions restart at 0, so no distance inside an origin ever exceeds 511.</text>
+</svg>
