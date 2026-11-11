@@ -212,7 +212,7 @@ Every hypothesis, with the verdict its frozen rule gives:
 | | Hypothesis | Layer | Verdict |
 | --- | --- | --- | --- |
 | H1 | OPM (fold-left with skeleton and graph faults) beats one-shot retrieval on late-binding multi-hop questions | memory | ✅ supported |
-| H2 | Extractive session state keeps turn-1 constraints through 50 turns | memory | ⚪ inconclusive (not funded) |
+| H2 | Extractive session state keeps turn-1 constraints through 50 turns | memory | ⚪ inconclusive |
 | H3 | Measured coverage predicts success, and graph edges add recall beyond skeletons | memory | ❌ refuted (`S11` − `S8` = −1.0 points) |
 | H4 | Fresh frames alone alias origins; the origin vector repairs it and adds provenance | attention | ❌ refuted (fresh-frame aliasing confirmed; the repair was not learned) |
 | H5 | Hyperbolic distance beats Euclidean distance on the same tree | both | ⚪ inconclusive (agent arm +0.4 points, CI −2.0 to 3.2; model arm not run) |
